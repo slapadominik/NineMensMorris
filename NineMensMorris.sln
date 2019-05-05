@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NineMensMorris", "NineMensMorris\NineMensMorris.csproj", "{EB177997-012D-493A-9037-63C444766374}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NineMensMorris.Logic", "NineMensMorris.Logic\NineMensMorris.Logic.csproj", "{6522CFF7-D871-496E-BFCF-DC5AD238F392}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB177997-012D-493A-9037-63C444766374}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB177997-012D-493A-9037-63C444766374}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB177997-012D-493A-9037-63C444766374}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB177997-012D-493A-9037-63C444766374}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6522CFF7-D871-496E-BFCF-DC5AD238F392}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6522CFF7-D871-496E-BFCF-DC5AD238F392}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6522CFF7-D871-496E-BFCF-DC5AD238F392}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6522CFF7-D871-496E-BFCF-DC5AD238F392}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0B8FD82-7FA8-4D70-AB76-1027F740A078}
+	EndGlobalSection
+EndGlobal
