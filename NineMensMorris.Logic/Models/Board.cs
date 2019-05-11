@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NineMensMorris.Logic.Consts;
+using NineMensMorris.Logic.Exceptions;
 
 namespace NineMensMorris.Logic.Models
 {
+    [Serializable]
     public class Board
     {
         private Dictionary<string, Piece> _board;
@@ -11,15 +15,60 @@ namespace NineMensMorris.Logic.Models
         {
             _board = new Dictionary<string, Piece>()
             {
-                {Locations.A8, null}, {Locations.B8, null}, {Locations.C8, null}, {Locations.D8,null}, {Locations.E8, null}, {Locations.F8, null}, {Locations.G8, null}, {Locations.H8, null},
-                {Locations.A7,null}, {Locations.B7,  null}, {Locations.C7, null}, {Locations.D7,null}, {Locations.E7,  null}, {Locations.F7, null}, {Locations.G7,null}, {Locations.H7,  null},
-                {Locations.A6, null}, {Locations.B6, null}, {Locations.C6, null}, {Locations.D6, null}, {Locations.E6, null}, {Locations.F6, null}, {Locations.G6, null}, {Locations.H6, null},
-                {Locations.A5, null}, {Locations.B5, null}, {Locations.C5, null}, {Locations.D5, null}, {Locations.E5, null}, {Locations.F5, null}, {Locations.G5, null}, {Locations.H5, null},
-                {Locations.A4, null}, {Locations.B4, null}, {Locations.C4, null}, {Locations.D4, null}, {Locations.E4, null}, {Locations.F4, null}, {Locations.G4, null}, {Locations.H4, null},
-                {Locations.A3, null}, {Locations.B3, null}, {Locations.C3, null}, {Locations.D3, null}, {Locations.E3, null}, {Locations.F3, null}, {Locations.G3, null}, {Locations.H3, null},
-                {Locations.A2, null}, {Locations.B2, null}, {Locations.C2, null}, {Locations.D2, null}, {Locations.E2, null}, {Locations.F2, null}, {Locations.G2, null}, {Locations.H2, null},
-                {Locations.A1,null}, {Locations.B1, null}, {Locations.C1, null}, {Locations.D1, null}, {Locations.E1, null}, {Locations.F1, null}, {Locations.G1, null}, {Locations.H1, null}
+                {Locations.A7,null}, {Locations.D7,null},{Locations.G7,null},
+                {Locations.B6, null},  {Locations.D6, null},{Locations.F6, null},
+                {Locations.C5, null}, {Locations.D5, null}, {Locations.E5, null},
+                {Locations.A4, null}, {Locations.B4, null}, {Locations.C4, null}, {Locations.E4, null}, {Locations.F4, null}, {Locations.G4, null},
+                {Locations.C3, null}, {Locations.D3, null}, {Locations.E3, null},
+                {Locations.B2, null}, {Locations.D2, null}, {Locations.F2, null},
+                {Locations.A1,null}, {Locations.D1, null}, {Locations.G1, null},
             };
+        }
+
+        public void SetPiece(string location, Piece piece)
+        {
+            if (!_board.ContainsKey(location))
+            {
+                throw new InvalidMoveException($"Location {location} does not exist.");
+            }
+            _board[location] = piece;
+        }
+
+        public Piece GetPiece(string location)
+        {
+            if (!_board.ContainsKey(location))
+            {
+                throw new InvalidMoveException($"Location {location} does not exist.");
+            }
+            return _board[location];
+        }
+
+        public IEnumerable<PossibleMove> GetPossibleMoves(Color currentPlayer)
+        {
+            if (Game.GameStatus == GameStatus.Initialization)
+            {
+                List<PossibleMove> possibleMoves = new List<PossibleMove>();
+                foreach (var key in _board.Keys)
+                {
+                    if (_board[key] == null)
+                    {
+                        possibleMoves.Add(new PossibleMove{To = key, MoveType = MoveType.AddPiece});
+                    }
+                }
+                return possibleMoves;
+            }
+
+            if (Game.GameStatus == GameStatus.Middle)
+            {
+                return  _board.Values.Where(x => x != null && x.Color == currentPlayer).SelectMany(x => GetPossibleMoves(x));
+            }
+
+            return null;
+        }
+
+        private IEnumerable<PossibleMove> GetPossibleMoves(Piece piece)
+        {
+            throw new NotImplementedException();
         }
     }
 }

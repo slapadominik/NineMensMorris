@@ -1,4 +1,6 @@
-﻿using NineMensMorris.Logic.Algorithms;
+﻿using System.Security.Policy;
+using NineMensMorris.Logic.Algorithms;
+using NineMensMorris.Logic.Algorithms.Heuristics;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Exceptions;
 
@@ -13,6 +15,7 @@ namespace NineMensMorris.Logic.Models
         private Player _playerBlack;
         private Player _currentPlayer;
         private int _moves;
+        public static GameStatus GameStatus = GameStatus.Initialization;
 
         public Game(GameConfiguration gameConfig)
         {
@@ -73,7 +76,15 @@ namespace NineMensMorris.Logic.Models
                 _playerWhite = new Player(Color.White, PlayerType.AI);
                 if (gameConfig.PlayerWhiteAiType == AiAlgorithmType.MinMax)
                 {
-                    _aiWhiteMove = new MinMaxAiMove();
+                    switch (gameConfig.PlayerWhiteAiHeuristics)
+                    {
+                        case Heuristics.PiecesCount:
+                            _aiWhiteMove = new MinMaxAiMove(new PiecesCountHeuristic());
+                            break;
+                        default:
+                            _aiWhiteMove = new MinMaxAiMove(new PiecesCountHeuristic());
+                            break;
+                    }
                 }
                 else if (gameConfig.PlayerWhiteAiType == AiAlgorithmType.AlphaBeta)
                 {
@@ -94,7 +105,15 @@ namespace NineMensMorris.Logic.Models
                 _playerBlack = new Player(Color.Black, PlayerType.AI);
                 if (gameConfig.PlayerWhiteAiType == AiAlgorithmType.MinMax)
                 {
-                    _aiBlackMove = new MinMaxAiMove();
+                    switch (gameConfig.PlayerBlackAiHeuristics)
+                    {
+                        case Heuristics.PiecesCount:
+                            _aiBlackMove = new MinMaxAiMove(new PiecesCountHeuristic());
+                            break;
+                        default:
+                            _aiBlackMove = new MinMaxAiMove(new PiecesCountHeuristic());
+                            break;
+                    }
                 }
                 else if (gameConfig.PlayerBlackAiType == AiAlgorithmType.AlphaBeta)
                 {

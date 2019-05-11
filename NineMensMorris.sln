@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NineMensMorris", "NineMensM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NineMensMorris.Logic", "NineMensMorris.Logic\NineMensMorris.Logic.csproj", "{6522CFF7-D871-496E-BFCF-DC5AD238F392}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NineMensMorris.Logic.Tests", "NineMensMorris.Logic.Tests\NineMensMorris.Logic.Tests.csproj", "{B1D80838-E278-4BFF-80C2-A15BF31C5E4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6522CFF7-D871-496E-BFCF-DC5AD238F392}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6522CFF7-D871-496E-BFCF-DC5AD238F392}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6522CFF7-D871-496E-BFCF-DC5AD238F392}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1D80838-E278-4BFF-80C2-A15BF31C5E4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1D80838-E278-4BFF-80C2-A15BF31C5E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1D80838-E278-4BFF-80C2-A15BF31C5E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1D80838-E278-4BFF-80C2-A15BF31C5E4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
