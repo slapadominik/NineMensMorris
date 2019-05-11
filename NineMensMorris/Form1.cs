@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NineMensMorris.Properties;
 
 namespace NineMensMorris
 {
@@ -42,6 +43,21 @@ namespace NineMensMorris
             };
 
             g.DrawLines(myPen, points);
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {            
+            pictureBox1.Image = Resources.PieceBlack3;
+            pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            pictureBox1.BackColor = Color.Transparent;
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            var box = sender as PictureBox;
+            box.Image = Resources.PieceWhite1;
+            pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            box.BackColor = Color.Transparent;
         }
     }
 }

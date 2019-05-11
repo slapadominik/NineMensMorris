@@ -65,6 +65,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -78,6 +79,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\black-circle-png47c-4a62-b41d-149d42a05759.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blackcircle.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blackcircle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\11245-medium-black-circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blackcircle3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PieceWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PieceBlack1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PieceBlack2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PieceBlack3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PieceWhite1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
