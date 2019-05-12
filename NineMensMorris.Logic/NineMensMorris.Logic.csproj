@@ -41,12 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\CaptureHeuristics\PiecesToMillCaptureHeuristic.cs" />
     <Compile Include="AI\Node.cs" />
-    <Compile Include="Algorithms\AlphaBetaAiMove.cs" />
-    <Compile Include="Algorithms\Heuristics\IHeuristic.cs" />
-    <Compile Include="Algorithms\Heuristics\PiecesCountHeuristic.cs" />
-    <Compile Include="Algorithms\IAiMove.cs" />
-    <Compile Include="Algorithms\MinMaxAiMove.cs" />
+    <Compile Include="AI\Algorithms\AlphaBetaAiMove.cs" />
+    <Compile Include="AI\CaptureHeuristics\ICaptureHeuristic.cs" />
+    <Compile Include="AI\MoveHeuristics\IMoveHeuristic.cs" />
+    <Compile Include="AI\MoveHeuristics\PiecesCountMoveHeuristic.cs" />
+    <Compile Include="AI\Algorithms\IAiMove.cs" />
+    <Compile Include="AI\Algorithms\MinMaxAiMove.cs" />
     <Compile Include="Consts\AiAlgorithmType.cs" />
     <Compile Include="Consts\GameStatus.cs" />
     <Compile Include="Consts\Heuristics.cs" />

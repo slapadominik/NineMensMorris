@@ -1,8 +1,6 @@
-﻿using NineMensMorris.Logic.AI;
-
-namespace NineMensMorris.Logic.Algorithms.Heuristics
+﻿namespace NineMensMorris.Logic.AI.MoveHeuristics
 {
-    public class PiecesCountHeuristic : IHeuristic
+    public class PiecesCountMoveHeuristic : IMoveHeuristic
     {
         public int EvaluateGameState(Node state)
         {

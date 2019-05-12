@@ -1,6 +1,6 @@
 ﻿using System.Security.Policy;
-using NineMensMorris.Logic.Algorithms;
-using NineMensMorris.Logic.Algorithms.Heuristics;
+using NineMensMorris.Logic.AI.Algorithms;
+using NineMensMorris.Logic.AI.MoveHeuristics;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Exceptions;
 
@@ -79,10 +79,10 @@ namespace NineMensMorris.Logic.Models
                     switch (gameConfig.PlayerWhiteAiHeuristics)
                     {
                         case Heuristics.PiecesCount:
-                            _aiWhiteMove = new MinMaxAiMove(new PiecesCountHeuristic());
+                            _aiWhiteMove = new MinMaxAiMove(new PiecesCountMoveHeuristic());
                             break;
                         default:
-                            _aiWhiteMove = new MinMaxAiMove(new PiecesCountHeuristic());
+                            _aiWhiteMove = new MinMaxAiMove(new PiecesCountMoveHeuristic());
                             break;
                     }
                 }
@@ -108,10 +108,10 @@ namespace NineMensMorris.Logic.Models
                     switch (gameConfig.PlayerBlackAiHeuristics)
                     {
                         case Heuristics.PiecesCount:
-                            _aiBlackMove = new MinMaxAiMove(new PiecesCountHeuristic());
+                            _aiBlackMove = new MinMaxAiMove(new PiecesCountMoveHeuristic());
                             break;
                         default:
-                            _aiBlackMove = new MinMaxAiMove(new PiecesCountHeuristic());
+                            _aiBlackMove = new MinMaxAiMove(new PiecesCountMoveHeuristic());
                             break;
                     }
                 }

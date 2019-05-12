@@ -1,20 +1,19 @@
 ﻿using System;
-using NineMensMorris.Logic.AI;
-using NineMensMorris.Logic.Algorithms.Heuristics;
+using NineMensMorris.Logic.AI.MoveHeuristics;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Extensions;
 using NineMensMorris.Logic.Helpers;
 using NineMensMorris.Logic.Models;
 
-namespace NineMensMorris.Logic.Algorithms
+namespace NineMensMorris.Logic.AI.Algorithms
 {
     public class MinMaxAiMove : IAiMove
     {
-        private IHeuristic _heuristic;
+        private IMoveHeuristic _moveHeuristic;
 
-        public MinMaxAiMove(IHeuristic heuristic)
+        public MinMaxAiMove(IMoveHeuristic moveHeuristic)
         {
-            _heuristic = heuristic;
+            _moveHeuristic = moveHeuristic;
         }
 
         public MoveType Move(Board board, Color currentPlayer)
@@ -46,11 +45,33 @@ namespace NineMensMorris.Logic.Algorithms
 
             if (Game.GameStatus == GameStatus.Middle)
             {
-                //przelicz mozliwe ruchy dla gracza bialego i stworz tyle dzieci ile jest mozliwych ruchow
-                board.GetPossibleMoves(currentPlayer);
+                Node root = new Node(currentPlayer) { Board = board };
+                var possibleMoves = board.GetPossibleMoves(currentPlayer);
+                foreach (var move in possibleMoves)
+                {
+                    var newBoard = board.DeepClone();
+                    var piece = newBoard.GetPiece(move.From);
+                    newBoard.SetPiece(move.To, piece);
+                    var millsCount = newBoard.CountMills(currentPlayer);
+                    CapturePiece(board, "miejsce", currentPlayer);
+                    root.AddState(BuildStateSpace(newBoard, depth - 1, ColorHelper.GetOpponentColor(currentPlayer)));
+                }
+                return root;
             }
 
             throw new InvalidOperationException();
+        }
+
+        private bool CapturePiece(Board board, string location, Color currentPlayer)
+        {
+            if (board.GetPiece(location)?.Color == ColorHelper.GetOpponentColor(currentPlayer))
+            {
+                board.SetPiece(location, null);
+                return true;
+            }
+
+            return false;
+
         }
 
         public void Minimax(Node position, int depth, Color color)
@@ -58,7 +79,7 @@ namespace NineMensMorris.Logic.Algorithms
             if (depth == 0)
             {
                 //evalute node
-                position.Value = _heuristic.EvaluateGameState(position);
+                position.Value = _moveHeuristic.EvaluateGameState(position);
             }
         }
     }
