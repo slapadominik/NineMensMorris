@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using NineMensMorris.Logic.AI.CaptureHeuristics;
 using NineMensMorris.Logic.AI.MoveHeuristics;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Extensions;
@@ -10,17 +12,21 @@ namespace NineMensMorris.Logic.AI.Algorithms
     public class MinMaxAiMove : IAiMove
     {
         private IMoveHeuristic _moveHeuristic;
+        private ICaptureHeuristic _captureHeuristic;
+        private const int Depth = 3;
 
-        public MinMaxAiMove(IMoveHeuristic moveHeuristic)
+        public MinMaxAiMove(IMoveHeuristic moveHeuristic, ICaptureHeuristic captureHeuristic)
         {
             _moveHeuristic = moveHeuristic;
+            _captureHeuristic = captureHeuristic;
         }
 
-        public MoveType Move(Board board, Color currentPlayer)
+        public MoveResult Move(Board board, Color currentPlayer)
         {
-            var stateSpace = BuildStateSpace(board, 3, currentPlayer);
-            Minimax(stateSpace, 3, currentPlayer);
-            return MoveType.Normal;
+            var stateSpace = BuildStateSpace(board, Depth, currentPlayer);
+            var value = Minimax(stateSpace, Depth, currentPlayer);
+            var bestAvailableMove = stateSpace.Children.Single(x => x.Value == value);
+            return new MoveResult {Board = board, MoveType = bestAvailableMove.MoveType};
         }
 
         public Node BuildStateSpace(Board board, int depth, Color currentPlayer)
@@ -30,56 +36,63 @@ namespace NineMensMorris.Logic.AI.Algorithms
                 return null;
             }
 
-            if (Game.GameStatus == GameStatus.Initialization)
+            Node node = new Node(currentPlayer) { Board = board, MoveType = MoveType.Normal};
+            var possibleMoves = board.GetPossibleMoves(currentPlayer);
+            foreach (var move in possibleMoves)
             {
-                Node root = new Node(currentPlayer) {Board = board};
-                var possibleMoves = board.GetPossibleMoves(currentPlayer);
-                foreach (var move in possibleMoves)
+                var newBoard = board.DeepClone();
+                if (GameConfiguration.GameStatus == GameStatus.Initialization)
                 {
-                    var newBoard = board.DeepClone();
                     newBoard.SetPiece(move.To, new Piece(currentPlayer, move.To));
-                    root.AddState(BuildStateSpace(newBoard, depth - 1, ColorHelper.GetOpponentColor(currentPlayer)));
+                    node.MoveType = MoveType.AddPiece;
                 }
-                return root;
-            }
-
-            if (Game.GameStatus == GameStatus.Middle)
-            {
-                Node root = new Node(currentPlayer) { Board = board };
-                var possibleMoves = board.GetPossibleMoves(currentPlayer);
-                foreach (var move in possibleMoves)
+                else
                 {
-                    var newBoard = board.DeepClone();
                     var piece = newBoard.GetPiece(move.From);
                     newBoard.SetPiece(move.To, piece);
-                    var millsCount = newBoard.CountMills(currentPlayer);
-                    CapturePiece(board, "miejsce", currentPlayer);
-                    root.AddState(BuildStateSpace(newBoard, depth - 1, ColorHelper.GetOpponentColor(currentPlayer)));
                 }
-                return root;
+                var millsCount = newBoard.CountMills(currentPlayer);
+                if (millsCount > 0)
+                {
+                    var captureLocation = _captureHeuristic.ChoosePieceToCapture(newBoard, currentPlayer);
+                    board.SetPiece(captureLocation, null);
+                    node.MoveType = MoveType.Capture;
+                }
+                node.AddState(BuildStateSpace(newBoard, depth - 1, ColorHelper.GetOpponentColor(currentPlayer)));
             }
-
-            throw new InvalidOperationException();
+            return node;
         }
 
-        private bool CapturePiece(Board board, string location, Color currentPlayer)
-        {
-            if (board.GetPiece(location)?.Color == ColorHelper.GetOpponentColor(currentPlayer))
-            {
-                board.SetPiece(location, null);
-                return true;
-            }
-
-            return false;
-
-        }
-
-        public void Minimax(Node position, int depth, Color color)
+        public int Minimax(Node position, int depth, Color currentPlayer)
         {
             if (depth == 0)
             {
-                //evalute node
-                position.Value = _moveHeuristic.EvaluateGameState(position);
+                var value = _moveHeuristic.EvaluateGameState(position);
+                position.Value = value;
+                return value;
+            }
+
+            if (currentPlayer == Color.White)
+            {
+                var maxEval = Int32.MaxValue;
+                foreach (var child in position.Children)
+                {
+                    var eval = Minimax(child, depth-1, ColorHelper.GetOpponentColor(currentPlayer));
+                    maxEval = Math.Max(maxEval, eval);
+                }
+                position.Value = maxEval;
+                return maxEval;
+            }
+            else
+            {
+                var minEval = Int32.MinValue;
+                foreach (var child in position.Children)
+                {
+                    var eval = Minimax(child, depth - 1, ColorHelper.GetOpponentColor(currentPlayer));
+                    minEval = Math.Min(minEval, eval);
+                }
+                position.Value = minEval;
+                return minEval;
             }
         }
     }

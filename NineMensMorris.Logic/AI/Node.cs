@@ -8,19 +8,20 @@ namespace NineMensMorris.Logic.AI
     {
         public int Value { get; set; }
         public Board Board { get; set; }
-        public IList<Node> Childs { get; set; }
+        public IList<Node> Children { get; set; }
+        public MoveType MoveType{ get; set; }
 
 
         private readonly Color _color;
         public Node(Color color)
         {
             _color = color;
-            Childs = new List<Node>();
+            Children = new List<Node>();
         }
 
         public void AddState(Node node)
         {
-            Childs.Add(node);
+            Children.Add(node);
         }
     }
 }

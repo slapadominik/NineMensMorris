@@ -5,7 +5,7 @@ namespace NineMensMorris.Logic.AI.Algorithms
 {
     public class AlphaBetaAiMove : IAiMove
     {
-        public MoveType Move(Board board, Color color)
+        public MoveResult Move(Board board, Color currentPlayer)
         {
             throw new System.NotImplementedException();
         }

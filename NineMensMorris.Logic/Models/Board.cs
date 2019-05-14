@@ -80,6 +80,11 @@ namespace NineMensMorris.Logic.Models
             };
         }
 
+        public List<Piece> GetPlayerPieces(Color color)
+        {
+            return _board.Values.Where(x => x?.Color == color).ToList();
+        }
+
         public void SetPiece(string location, Piece piece)
         {
             if (!_board.ContainsKey(location))
@@ -103,30 +108,16 @@ namespace NineMensMorris.Logic.Models
             int mills = 0;
             foreach (var row in _rowMillsLocations)
             {
-                bool isMill = true;
-                foreach (var tile in row)
-                {
-                    if (_board[tile]?.Color != player)
-                    {
-                        isMill = false;
-                    }
-                }
-                if (isMill)
+                var playerPieces = row.Where(x => _board[x]?.Color == player);
+                if (playerPieces.Count() == 3)
                 {
                     mills++;
                 }
             }
-            foreach (var row in _columnMillsLocations)
+            foreach (var column in _columnMillsLocations)
             {
-                bool isMill = true;
-                foreach (var tile in row)
-                {
-                    if (_board[tile]?.Color != player)
-                    {
-                        isMill = false;
-                    }
-                }
-                if (isMill)
+                var playerPieces = column.Where(x => _board[x]?.Color == player);
+                if (playerPieces.Count() == 3)
                 {
                     mills++;
                 }
@@ -137,7 +128,7 @@ namespace NineMensMorris.Logic.Models
 
         public IEnumerable<PossibleMove> GetPossibleMoves(Color player)
         {
-            if (Game.GameStatus == GameStatus.Initialization)
+            if (GameConfiguration.GameStatus == GameStatus.Initialization)
             {
                 List<PossibleMove> possibleMoves = new List<PossibleMove>();
                 foreach (var key in _board.Keys)
@@ -150,7 +141,7 @@ namespace NineMensMorris.Logic.Models
                 return possibleMoves;
             }
 
-            if (Game.GameStatus == GameStatus.Middle)
+            if (GameConfiguration.GameStatus == GameStatus.Middle)
             {
                 return  _board.Values.Where(x => x != null && x.Color == player).SelectMany(x => GetPossibleMoves(x));
             }
@@ -158,26 +149,45 @@ namespace NineMensMorris.Logic.Models
             throw new InvalidOperationException();
         }
 
+        public IEnumerable<AlmostMill> GetAlmostMills(Color player)
+        {
+            List<AlmostMill> mills = new List<AlmostMill>();
+            foreach (var row in _rowMillsLocations)
+            {
+                var playersPiecesInRow = row.Where(x => _board[x]?.Color == player);
+                if (playersPiecesInRow.Count() >= 2)
+                {
+                    mills.Add(new AlmostMill {Position = Position.Row, Tiles = playersPiecesInRow.ToList()});
+                }
+            }
+            foreach (var column in _columnMillsLocations)
+            {
+                var playersPiecesInColumn = column.Where(x => _board[x]?.Color == player);
+                if (playersPiecesInColumn.Count() >= 2)
+                {
+                    mills.Add(new AlmostMill { Position = Position.Column, Tiles = playersPiecesInColumn.ToList() });
+                }
+            }
+            return mills;
+        }
+
         private IEnumerable<PossibleMove> GetPossibleMoves(Piece piece)
         {
-            if (Game.GameStatus == GameStatus.Middle)
-            {
-                return _neighbours[piece.Location].Where(x => _board[x] == null).Select(x => new PossibleMove{From = piece.Location, To = x, MoveType = MoveType.Normal});
-            }
-
-            if (Game.GameStatus == GameStatus.Last)
+            if ((piece.Color == Color.White && GameConfiguration.WhitePieces <= 3) || (piece.Color == Color.Black && GameConfiguration.BlackPieces <=3))
             {
                 List<PossibleMove> possibleMoves = new List<PossibleMove>();
                 foreach (var key in _board.Keys)
                 {
                     if (_board[key] == null)
                     {
-                        possibleMoves.Add(new PossibleMove { From = piece.Location, To = key, MoveType = MoveType.Normal });
+                        possibleMoves.Add(new PossibleMove { From = piece.Location, To = key });
                     }
                 }
                 return possibleMoves;
             }
-            throw new InvalidOperationException();
+
+
+            return _neighbours[piece.Location].Where(x => _board[x] == null).Select(x => new PossibleMove{From = piece.Location, To = x});
         }
     }
 }

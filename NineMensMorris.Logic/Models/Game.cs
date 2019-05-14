@@ -1,5 +1,6 @@
 ﻿using System.Security.Policy;
 using NineMensMorris.Logic.AI.Algorithms;
+using NineMensMorris.Logic.AI.CaptureHeuristics;
 using NineMensMorris.Logic.AI.MoveHeuristics;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Exceptions;
@@ -8,19 +9,19 @@ namespace NineMensMorris.Logic.Models
 {
     public class Game
     {
-        private readonly Board _board;
+        private Board _board;
         private IAiMove _aiWhiteMove;
         private IAiMove _aiBlackMove;
         private Player _playerWhite;
         private Player _playerBlack;
         private Player _currentPlayer;
         private int _moves;
-        public static GameStatus GameStatus = GameStatus.Initialization;
 
-        public Game(GameConfiguration gameConfig)
+        public Game(GameSetup gameSetup)
         {
             _board = new Board();
-            SetUpGame(gameConfig);
+            SetUpGame(gameSetup);
+            _currentPlayer = _playerWhite;
         }
 
         public void HumanMove(string from, string to)
@@ -42,10 +43,18 @@ namespace NineMensMorris.Logic.Models
             {
                 throw new InvalidPlayerTypeException();
             }
-        }
 
-        public void AiCapture()
-        {
+            MoveResult moveResult;
+            if (_currentPlayer.Color == Color.White)
+            {
+                moveResult = _aiWhiteMove.Move(_board, _currentPlayer.Color);
+            }
+            else
+            {
+                moveResult = _aiBlackMove.Move(_board, _currentPlayer.Color);
+            }
+            _board = moveResult.Board;
+            _moves++;
 
         }
 
@@ -65,8 +74,8 @@ namespace NineMensMorris.Logic.Models
             return _moves;
         }
 
-        private void SetUpGame(GameConfiguration gameConfig)
-        {
+        private void SetUpGame(GameSetup gameConfig)
+        {            
             if (gameConfig.PlayerWhite == PlayerType.Human)
             {
                 _playerWhite = new Player(Color.White, PlayerType.Human);
@@ -79,10 +88,10 @@ namespace NineMensMorris.Logic.Models
                     switch (gameConfig.PlayerWhiteAiHeuristics)
                     {
                         case Heuristics.PiecesCount:
-                            _aiWhiteMove = new MinMaxAiMove(new PiecesCountMoveHeuristic());
+                            _aiWhiteMove = new MinMaxAiMove(new PiecesCountMoveHeuristic(), new PiecesToMillCaptureHeuristic());
                             break;
                         default:
-                            _aiWhiteMove = new MinMaxAiMove(new PiecesCountMoveHeuristic());
+                            _aiWhiteMove = new MinMaxAiMove(new PiecesCountMoveHeuristic(), new PiecesToMillCaptureHeuristic());
                             break;
                     }
                 }
@@ -108,10 +117,10 @@ namespace NineMensMorris.Logic.Models
                     switch (gameConfig.PlayerBlackAiHeuristics)
                     {
                         case Heuristics.PiecesCount:
-                            _aiBlackMove = new MinMaxAiMove(new PiecesCountMoveHeuristic());
+                            _aiBlackMove = new MinMaxAiMove(new PiecesCountMoveHeuristic(), new PiecesToMillCaptureHeuristic());
                             break;
                         default:
-                            _aiBlackMove = new MinMaxAiMove(new PiecesCountMoveHeuristic());
+                            _aiBlackMove = new MinMaxAiMove(new PiecesCountMoveHeuristic(), new PiecesToMillCaptureHeuristic());
                             break;
                     }
                 }

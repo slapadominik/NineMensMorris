@@ -1,4 +1,5 @@
 ﻿using NineMensMorris.Logic.AI.Algorithms;
+using NineMensMorris.Logic.AI.CaptureHeuristics;
 using NineMensMorris.Logic.AI.MoveHeuristics;
 using NineMensMorris.Logic.Models;
 using NUnit.Framework;
@@ -13,7 +14,7 @@ namespace NineMensMorris.Logic.Tests.Algorithms
         [SetUp]
         public void SetUp()
         {
-            _sut = new MinMaxAiMove(new PiecesCountMoveHeuristic());
+            _sut = new MinMaxAiMove(new PiecesCountMoveHeuristic(), new PiecesToMillCaptureHeuristic());
         }
 
         [Test]
