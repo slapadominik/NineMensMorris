@@ -10,5 +10,10 @@ namespace NineMensMorris.Logic.Models
         public AiAlgorithmType PlayerBlackAiType { get; set; }
         public Heuristics PlayerWhiteAiHeuristics{ get; set; }
         public Heuristics PlayerBlackAiHeuristics{ get; set; }
+
+        public override string ToString()
+        {
+            return $"Game setup: [Player white: {PlayerWhite}, Player black: {PlayerBlack}]";
+        }
     }
 }

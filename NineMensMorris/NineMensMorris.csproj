@@ -110,5 +110,11 @@
   <ItemGroup>
     <None Include="Resources\PieceWhite1.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NineMensMorris.Logic\NineMensMorris.Logic.csproj">
+      <Project>{6522cff7-d871-496e-bfcf-dc5ad238f392}</Project>
+      <Name>NineMensMorris.Logic</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

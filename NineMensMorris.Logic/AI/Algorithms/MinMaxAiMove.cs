@@ -11,13 +11,13 @@ namespace NineMensMorris.Logic.AI.Algorithms
 {
     public class MinMaxAiMove : IAiMove
     {
-        private IMoveHeuristic _moveHeuristic;
+        private IGameEvaluationHeuristic _gameEvaluationHeuristic;
         private ICaptureHeuristic _captureHeuristic;
         private const int Depth = 3;
 
-        public MinMaxAiMove(IMoveHeuristic moveHeuristic, ICaptureHeuristic captureHeuristic)
+        public MinMaxAiMove(IGameEvaluationHeuristic gameEvaluationHeuristic, ICaptureHeuristic captureHeuristic)
         {
-            _moveHeuristic = moveHeuristic;
+            _gameEvaluationHeuristic = gameEvaluationHeuristic;
             _captureHeuristic = captureHeuristic;
         }
 
@@ -67,7 +67,7 @@ namespace NineMensMorris.Logic.AI.Algorithms
         {
             if (depth == 0)
             {
-                var value = _moveHeuristic.EvaluateGameState(position);
+                var value = _gameEvaluationHeuristic.EvaluateGameState(position, currentPlayer);
                 position.Value = value;
                 return value;
             }

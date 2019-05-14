@@ -14,7 +14,7 @@ namespace NineMensMorris.Logic.Tests.Algorithms
         [SetUp]
         public void SetUp()
         {
-            _sut = new MinMaxAiMove(new PiecesCountMoveHeuristic(), new PiecesToMillCaptureHeuristic());
+            _sut = new MinMaxAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
         }
 
         [Test]

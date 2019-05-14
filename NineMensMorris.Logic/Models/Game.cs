@@ -30,6 +30,7 @@ namespace NineMensMorris.Logic.Models
             {
                 throw new InvalidPlayerTypeException();
             }
+
         }
 
         public void HumanCapture(string location)
@@ -55,7 +56,17 @@ namespace NineMensMorris.Logic.Models
             }
             _board = moveResult.Board;
             _moves++;
-
+            if (moveResult.MoveType == MoveType.AddPiece)
+            {
+                if (_currentPlayer.Color == Color.White)
+                {
+                    GameConfiguration.WhitePieces++;
+                }
+                else
+                {
+                    GameConfiguration.BlackPieces++;
+                }
+            }
         }
 
         public int PossibleMovesCount(Color color)
@@ -88,10 +99,10 @@ namespace NineMensMorris.Logic.Models
                     switch (gameConfig.PlayerWhiteAiHeuristics)
                     {
                         case Heuristics.PiecesCount:
-                            _aiWhiteMove = new MinMaxAiMove(new PiecesCountMoveHeuristic(), new PiecesToMillCaptureHeuristic());
+                            _aiWhiteMove = new MinMaxAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
                             break;
                         default:
-                            _aiWhiteMove = new MinMaxAiMove(new PiecesCountMoveHeuristic(), new PiecesToMillCaptureHeuristic());
+                            _aiWhiteMove = new MinMaxAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
                             break;
                     }
                 }
@@ -117,10 +128,10 @@ namespace NineMensMorris.Logic.Models
                     switch (gameConfig.PlayerBlackAiHeuristics)
                     {
                         case Heuristics.PiecesCount:
-                            _aiBlackMove = new MinMaxAiMove(new PiecesCountMoveHeuristic(), new PiecesToMillCaptureHeuristic());
+                            _aiBlackMove = new MinMaxAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
                             break;
                         default:
-                            _aiBlackMove = new MinMaxAiMove(new PiecesCountMoveHeuristic(), new PiecesToMillCaptureHeuristic());
+                            _aiBlackMove = new MinMaxAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
                             break;
                     }
                 }

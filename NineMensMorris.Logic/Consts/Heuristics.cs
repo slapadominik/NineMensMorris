@@ -2,6 +2,7 @@
 {
     public enum Heuristics
     {
+        None = 0,
         PiecesCount = 1
     }
 }

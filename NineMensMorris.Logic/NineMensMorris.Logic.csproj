@@ -45,8 +45,8 @@
     <Compile Include="AI\Node.cs" />
     <Compile Include="AI\Algorithms\AlphaBetaAiMove.cs" />
     <Compile Include="AI\CaptureHeuristics\ICaptureHeuristic.cs" />
-    <Compile Include="AI\MoveHeuristics\IMoveHeuristic.cs" />
-    <Compile Include="AI\MoveHeuristics\PiecesCountMoveHeuristic.cs" />
+    <Compile Include="AI\MoveHeuristics\IGameEvaluationHeuristic.cs" />
+    <Compile Include="AI\MoveHeuristics\PiecesCountGameEvaluationHeuristic.cs" />
     <Compile Include="AI\Algorithms\IAiMove.cs" />
     <Compile Include="AI\Algorithms\MinMaxAiMove.cs" />
     <Compile Include="Consts\AiAlgorithmType.cs" />
