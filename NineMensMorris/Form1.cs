@@ -18,6 +18,12 @@ namespace NineMensMorris
     {
         private PlayerType _playerWhite;
         private PlayerType _playerBlack;
+        private int _playerWhiteMoves = 0;
+        private int _playerBlackMoves = 0;
+        private int _playerWhitePiecesInit = 0;
+        private int _playerBlackPiecesInit = 0;
+        private int _toCapture = 0;
+        private string _locationFrom = null;
         private Game _game;
 
         public Form1()
@@ -50,31 +56,6 @@ namespace NineMensMorris
             };
 
             g.DrawLines(myPen, points);
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {            
-            pictureBox1.Image = Resources.PieceBlack3;
-            pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            pictureBox1.BackColor = Color.Transparent;
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-            var box = sender as PictureBox;
-            box.Image = Resources.PieceWhite1;
-            pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            box.BackColor = Color.Transparent;
-        }
-
-        private void pictureBox22_Click(object sender, EventArgs e)
-        {
-            var box = sender as PictureBox;
-            box.Image = Resources.PieceWhite1;
-            pictureBox22.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            box.BackColor = Color.Transparent;
-            pictureBox22.Left -= 5;
-            pictureBox22.Top -= 5;
         }
 
         private void StartGameButton_Click(object sender, EventArgs e)
@@ -138,6 +119,225 @@ namespace NineMensMorris
                 Enum.TryParse(playerBlackAIRadioButton.Text, out PlayerType playerBlack);
                 _playerBlack = playerBlack;
             }
+        }
+
+        private void d7_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void g7_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void a7_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void c5_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void d5_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void e5_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void d6_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void f6_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void b6_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+
+        private void a4_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void b4_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void c4_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void e4_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void f4_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void g4_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void c3_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void d3_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void e3_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void f2_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void d2_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void b2_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void a1_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void d1_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+
+        private void g1_Click(object sender, EventArgs e)
+        {
+            Move(sender as PictureBox);
+        }
+
+        private void Move(PictureBox pictureBox)
+        {
+            if (_game != null && _game.CurrentPlayer.PlayerType == PlayerType.Human)
+            {
+                try
+                {
+                    if (_toCapture > 0)
+                    {
+                        CaptureMove(pictureBox.Name, pictureBox);
+                    }
+                    else if (GameConfiguration.GameStatus == GameStatus.Initialization)
+                    {
+                        NormalMove(null, pictureBox.Name, pictureBox);
+                    }
+                    else if (GameConfiguration.GameStatus == GameStatus.Middle && _locationFrom == null)
+                    {
+                        if (_game.DoesLocationContainFriendlyPiece(pictureBox.Name))
+                        {
+                            _locationFrom = pictureBox.Name;
+                        }
+                        else
+                        {
+                            logsListView.Items.Add($"Location {pictureBox.Name} does not contain friendly piece.");
+                        }
+                    }
+                    else if (GameConfiguration.GameStatus == GameStatus.Middle && _locationFrom != null)
+                    {
+                        if (_game.IsLocationEmpty(pictureBox.Name))
+                        {
+                            NormalMove(_locationFrom, pictureBox.Name, pictureBox);
+                        }
+                        else
+                        {
+                            logsListView.Items.Add($"Location {pictureBox.Name} already contains piece.");
+                        }
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logsListView.Items.Add(ex.Message);
+                }
+            }
+            else
+            {
+                logsListView.Items.Add("Game has not started yet. Press button \"Start new game\"");
+            }
+        }
+
+        private void NormalMove(string from, string to, PictureBox pictureBox)
+        {
+            var moveResult = _game.HumanMove(from, to);
+            if (moveResult.MoveType == MoveType.NewMill)
+            {
+                _toCapture++;
+            }
+            logsListView.Items.Add($"{moveResult.PlayerColor}: MOVE {moveResult.MoveType} {from} -> {to}");
+            if (moveResult.PlayerColor == Logic.Models.Color.White)
+            {
+                pictureBox.Image = Resources.PieceWhite;
+                playerWhiteMoves.Text = (++_playerWhiteMoves).ToString();                
+                if (GameConfiguration.GameStatus == GameStatus.Initialization && moveResult.MoveType == MoveType.AddPiece || moveResult.MoveType == MoveType.NewMill)
+                {
+                    playerWhitePiecesInit.Text = (++_playerWhitePiecesInit).ToString();
+                }
+            }
+            else if (moveResult.PlayerColor == Logic.Models.Color.Black)
+            {
+                pictureBox.Image = Resources.PieceBlack;
+                playerBlackMoves.Text = (++_playerBlackMoves).ToString();
+                if (GameConfiguration.GameStatus == GameStatus.Initialization && moveResult.MoveType == MoveType.AddPiece || moveResult.MoveType == MoveType.NewMill)
+                {
+                    playersBlackPiecesInit.Text = (++_playerBlackPiecesInit).ToString();
+                }
+            }
+
+            allMovesLabel.Text = (_playerWhiteMoves + _playerBlackMoves).ToString();
+            pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            pictureBox.Left -= 5;
+            pictureBox.Top -= 5;
+        }
+
+        private void CaptureMove(string to, PictureBox pictureBox)
+        {
+            var moveResult = _game.HumanCapture(to);
+            logsListView.Items.Add($"{moveResult.PlayerColor}: CAPTURED {pictureBox.Name}");
+            pictureBox.Image = Resources.blackcircle3;
+            pictureBox.Left += 5;
+            pictureBox.Top += 5;
+            pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            _toCapture = 0;
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using System.Security.Policy;
+﻿using System;
 using NineMensMorris.Logic.AI.Algorithms;
 using NineMensMorris.Logic.AI.CaptureHeuristics;
 using NineMensMorris.Logic.AI.MoveHeuristics;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Exceptions;
+using NineMensMorris.Logic.Helpers;
 
 namespace NineMensMorris.Logic.Models
 {
@@ -15,7 +16,6 @@ namespace NineMensMorris.Logic.Models
         private Player _playerWhite;
         private Player _playerBlack;
         private Player _currentPlayer;
-        private int _moves;
 
         public Game(GameSetup gameSetup)
         {
@@ -24,18 +24,34 @@ namespace NineMensMorris.Logic.Models
             _currentPlayer = _playerWhite;
         }
 
-        public void HumanMove(string from, string to)
+        public MoveResult HumanMove(string from, string to)
         {
             if (_currentPlayer.PlayerType != PlayerType.Human)
             {
                 throw new InvalidPlayerTypeException();
             }
 
+            var moveResult = _board.Move(from, to, _currentPlayer.Color);
+            if (moveResult.MoveType != MoveType.NewMill)
+            {
+                GameConfiguration.Moves++;
+                SetCurrentPlayer(ColorHelper.GetOpponentColor(_currentPlayer.Color));
+            }
+            return moveResult;
+
         }
 
-        public void HumanCapture(string location)
+        public MoveResult HumanCapture(string location)
         {
-            //jesli mlynek
+            if (_board.GetPiece(location)?.Color != ColorHelper.GetOpponentColor(_currentPlayer.Color))
+            {
+                throw new IllegalMoveException($"Illegal capture move! Location {location} does not contain opponent's piece.");
+            }
+            _board.SetPiece(location, null);
+            var moveResult = new MoveResult(_board, MoveType.Capture, CurrentPlayer.Color);
+            SetOpponentAsCurrentPlayer();
+            GameConfiguration.Moves++;
+            return moveResult;
         }
 
         public void AiMove()
@@ -55,7 +71,8 @@ namespace NineMensMorris.Logic.Models
                 moveResult = _aiBlackMove.Move(_board, _currentPlayer.Color);
             }
             _board = moveResult.Board;
-            _moves++;
+            GameConfiguration.Moves++;
+            SetOpponentAsCurrentPlayer();
             if (moveResult.MoveType == MoveType.AddPiece)
             {
                 if (_currentPlayer.Color == Color.White)
@@ -69,9 +86,14 @@ namespace NineMensMorris.Logic.Models
             }
         }
 
-        public int PossibleMovesCount(Color color)
+        public bool IsLocationEmpty(string location)
         {
-            return 0;
+            return _board.GetPiece(location) == null;
+        }
+
+        public bool DoesLocationContainFriendlyPiece(string location)
+        {
+            return _board.GetPiece(location)?.Color != _currentPlayer.Color;
         }
 
         public Player CurrentPlayer
@@ -79,10 +101,21 @@ namespace NineMensMorris.Logic.Models
             get { return _currentPlayer; }
         }
 
-
-        public int MovesCount()
+        private void SetOpponentAsCurrentPlayer()
         {
-            return _moves;
+            SetCurrentPlayer(ColorHelper.GetOpponentColor(_currentPlayer.Color));
+        }
+
+        private void SetCurrentPlayer(Color color)
+        {
+            if (color == Color.White)
+            {
+                _currentPlayer = _playerWhite;
+            }
+            else if (color == Color.Black)
+            {
+                _currentPlayer = _playerBlack;
+            }
         }
 
         private void SetUpGame(GameSetup gameConfig)

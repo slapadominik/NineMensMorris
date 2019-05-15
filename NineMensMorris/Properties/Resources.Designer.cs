@@ -73,29 +73,9 @@ namespace NineMensMorris.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap PieceBlack1 {
+        internal static System.Drawing.Bitmap PieceBlack {
             get {
-                object obj = ResourceManager.GetObject("PieceBlack1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap PieceBlack2 {
-            get {
-                object obj = ResourceManager.GetObject("PieceBlack2", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap PieceBlack3 {
-            get {
-                object obj = ResourceManager.GetObject("PieceBlack3", resourceCulture);
+                object obj = ResourceManager.GetObject("PieceBlack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -106,16 +86,6 @@ namespace NineMensMorris.Properties {
         internal static System.Drawing.Bitmap PieceWhite {
             get {
                 object obj = ResourceManager.GetObject("PieceWhite", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap PieceWhite1 {
-            get {
-                object obj = ResourceManager.GetObject("PieceWhite1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

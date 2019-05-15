@@ -13,6 +13,8 @@ namespace NineMensMorris.Logic.Models
         private static Dictionary<string, List<string>> _neighbours;
         private static List<List<string>> _rowMillsLocations;
         private static List<List<string>> _columnMillsLocations;
+        private List<List<string>> _whiteMills;
+        private List<List<string>> _blackMills;
         public Board()
         {
             _board = new Dictionary<string, Piece>()
@@ -25,6 +27,8 @@ namespace NineMensMorris.Logic.Models
                 {Locations.B2, null}, {Locations.D2, null}, {Locations.F2, null},
                 {Locations.A1,null}, {Locations.D1, null}, {Locations.G1, null},
             };            
+            _whiteMills = new List<List<string>>();
+            _blackMills = new List<List<string>>();
         }
 
         static Board()
@@ -85,12 +89,67 @@ namespace NineMensMorris.Logic.Models
             return _board.Values.Where(x => x?.Color == color).ToList();
         }
 
+        public MoveResult Move(string from, string to, Color currentPlayer)
+        {
+            if (GameConfiguration.GameStatus == GameStatus.Initialization)
+            {
+                var piece = GetPiece(to);
+                if (piece != null)
+                {
+                    throw new IllegalMoveException($"Illegal move! Location {to} already contains piece.");
+                }
+                SetPiece(to, new Piece(currentPlayer, to));
+                var newMills = GetNewMills(currentPlayer);
+                if (newMills.Count>0)
+                {
+                    if (currentPlayer == Color.White)
+                    {
+                        _whiteMills.Add(newMills);
+                    }
+                    else
+                    {
+                        _blackMills.Add(newMills);
+                    }
+                    return new MoveResult(this, MoveType.NewMill, currentPlayer);
+                }
+                return new MoveResult(this, MoveType.AddPiece, currentPlayer);
+            }
+            else if (GameConfiguration.GameStatus == GameStatus.Middle)
+            {
+                var piece = GetPiece(from);
+                if (piece?.Color == currentPlayer)
+                {
+                    throw new IllegalMoveException($"Illegal move! Location {from} does not contain player's piece.");
+                }
+                SetPiece(to, piece);
+                var newMills = GetNewMills(currentPlayer);
+                if (newMills.Count > 0)
+                {
+                    if (currentPlayer == Color.White)
+                    {
+                        _whiteMills.Add(newMills);
+                    }
+                    else
+                    {
+                        _blackMills.Add(newMills);
+                    }
+                    return new MoveResult(this, MoveType.NewMill, currentPlayer);
+                }
+                return new MoveResult(this, MoveType.Normal, currentPlayer);
+            }
+            throw new NotImplementedException();
+        }
+
         public void SetPiece(string location, Piece piece)
         {
             if (!_board.ContainsKey(location))
             {
                 throw new InvalidMoveException($"Location {location} does not exist.");
             }
+            if (piece != null)
+            {
+                piece.Location = location;
+            }   
             _board[location] = piece;
         }
 
@@ -103,7 +162,7 @@ namespace NineMensMorris.Logic.Models
             return _board[location];
         }
 
-        public int CountMills(Color player)
+        public int CountNewMills(Color player)
         {
             int mills = 0;
             foreach (var row in _rowMillsLocations)
@@ -124,6 +183,41 @@ namespace NineMensMorris.Logic.Models
             }
 
             return mills;
+        }
+
+        public List<string> GetNewMills(Color player)
+        {
+            List<string> newMills = new List<string>();
+            foreach (var row in _rowMillsLocations)
+            {
+                var playerPieces = row.Where(x => _board[x]?.Color == player);
+                if (playerPieces.Count() == 3)
+                {
+                    if (player == Color.White && !_whiteMills.Any(x => playerPieces.Intersect(x).Count()==3))
+                    {
+                        newMills.AddRange(playerPieces);
+                    }
+                    else if (player == Color.Black && !_blackMills.Any(x => playerPieces.Intersect(x).Count() == 3))
+                    {
+                        newMills.AddRange(playerPieces);
+                    }
+                }
+            }
+            foreach (var column in _columnMillsLocations)
+            {
+                var playerPieces = column.Where(x => _board[x]?.Color == player);
+                if (playerPieces.Count() == 3)
+                {
+                    if (player == Color.White
+                        ? !_whiteMills.Contains(playerPieces)
+                        : !_blackMills.Contains(playerPieces))
+                    {
+                        newMills.AddRange(playerPieces);
+                    }
+                }
+            }
+
+            return newMills;
         }
 
         public IEnumerable<PossibleMove> GetPossibleMoves(Color player)

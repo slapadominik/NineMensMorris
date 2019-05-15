@@ -96,19 +96,10 @@
     <None Include="Resources\blackcircle3.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\PieceBlack.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\PieceWhite.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PieceBlack1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PieceBlack2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PieceBlack3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PieceWhite1.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NineMensMorris.Logic\NineMensMorris.Logic.csproj">

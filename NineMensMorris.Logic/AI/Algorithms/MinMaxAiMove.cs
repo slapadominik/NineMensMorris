@@ -26,7 +26,7 @@ namespace NineMensMorris.Logic.AI.Algorithms
             var stateSpace = BuildStateSpace(board, Depth, currentPlayer);
             var value = Minimax(stateSpace, Depth, currentPlayer);
             var bestAvailableMove = stateSpace.Children.Single(x => x.Value == value);
-            return new MoveResult {Board = board, MoveType = bestAvailableMove.MoveType};
+            return new MoveResult (board, bestAvailableMove.MoveType, currentPlayer);
         }
 
         public Node BuildStateSpace(Board board, int depth, Color currentPlayer)
@@ -51,7 +51,7 @@ namespace NineMensMorris.Logic.AI.Algorithms
                     var piece = newBoard.GetPiece(move.From);
                     newBoard.SetPiece(move.To, piece);
                 }
-                var millsCount = newBoard.CountMills(currentPlayer);
+                var millsCount = newBoard.CountNewMills(currentPlayer);
                 if (millsCount > 0)
                 {
                     var captureLocation = _captureHeuristic.ChoosePieceToCapture(newBoard, currentPlayer);

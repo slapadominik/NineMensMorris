@@ -4,6 +4,7 @@
     {
         Normal = 1,
         Capture = 2,
-        AddPiece = 3
+        AddPiece = 3,
+        NewMill = 4
     }
 }

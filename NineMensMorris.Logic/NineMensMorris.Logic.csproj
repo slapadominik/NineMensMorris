@@ -56,6 +56,7 @@
     <Compile Include="Consts\MoveType.cs" />
     <Compile Include="Consts\PlayerType.cs" />
     <Compile Include="Consts\Position.cs" />
+    <Compile Include="Exceptions\IllegalMoveException.cs" />
     <Compile Include="Exceptions\InvalidConfigurationException.cs" />
     <Compile Include="Exceptions\InvalidMoveException.cs" />
     <Compile Include="Exceptions\InvalidPlayerTypeException.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GameConfiguration.cs" />
     <Compile Include="Models\GameSetup.cs" />
+    <Compile Include="Models\Move.cs" />
     <Compile Include="Models\MoveResult.cs" />
     <Compile Include="Models\Piece.cs" />
     <Compile Include="Models\Player.cs" />
