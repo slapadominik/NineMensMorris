@@ -64,7 +64,7 @@
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Models\AlmostMill.cs" />
     <Compile Include="Models\Board.cs" />
-    <Compile Include="Models\Color.cs" />
+    <Compile Include="Consts\Color.cs" />
     <Compile Include="Models\Column.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GameConfiguration.cs" />

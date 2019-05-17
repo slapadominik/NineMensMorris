@@ -41,7 +41,7 @@ namespace NineMensMorris.Logic.AI.Algorithms
             foreach (var move in possibleMoves)
             {
                 var newBoard = board.DeepClone();
-                if (GameConfiguration.GameStatus == GameStatus.Initialization)
+                if (GameConfiguration.GameStatus(currentPlayer) == GameStatus.Initialization)
                 {
                     newBoard.SetPiece(move.To, new Piece(currentPlayer, move.To));
                     node.MoveType = MoveType.AddPiece;

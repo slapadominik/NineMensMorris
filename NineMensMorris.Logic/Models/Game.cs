@@ -32,6 +32,18 @@ namespace NineMensMorris.Logic.Models
             }
 
             var moveResult = _board.Move(from, to, _currentPlayer.Color);
+            if (moveResult.MoveType == MoveType.AddPiece || GameConfiguration.GameStatus(_currentPlayer.Color) == GameStatus.Initialization && moveResult.MoveType == MoveType.NewMill)
+            {
+                if (_currentPlayer.Color == Color.White)
+                {
+                    GameConfiguration.WhitePieces++;
+                }
+                else
+                {
+                    GameConfiguration.BlackPieces++;
+                }
+            }
+
             if (moveResult.MoveType != MoveType.NewMill)
             {
                 GameConfiguration.Moves++;
@@ -48,6 +60,22 @@ namespace NineMensMorris.Logic.Models
                 throw new IllegalMoveException($"Illegal capture move! Location {location} does not contain opponent's piece.");
             }
             _board.SetPiece(location, null);
+            if (_currentPlayer.Color == Color.White)
+            {
+                GameConfiguration.BlackPieces--;
+                if (GameConfiguration.BlackPieces == 0)
+                {
+                    return new MoveResult(_board, MoveType.WhiteWins, CurrentPlayer.Color);
+                }
+            }
+            else
+            {
+                GameConfiguration.WhitePieces--;
+                if (GameConfiguration.WhitePieces == 0)
+                {
+                    return new MoveResult(_board, MoveType.WhiteWins, CurrentPlayer.Color);
+                }
+            }
             var moveResult = new MoveResult(_board, MoveType.Capture, CurrentPlayer.Color);
             SetOpponentAsCurrentPlayer();
             GameConfiguration.Moves++;
@@ -93,7 +121,11 @@ namespace NineMensMorris.Logic.Models
 
         public bool DoesLocationContainFriendlyPiece(string location)
         {
-            return _board.GetPiece(location)?.Color != _currentPlayer.Color;
+            if (_board.GetPiece(location) == null)
+            {
+                return false;
+            }
+            return _board.GetPiece(location).Color == _currentPlayer.Color;
         }
 
         public Player CurrentPlayer

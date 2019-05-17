@@ -11,16 +11,23 @@ namespace NineMensMorris.Logic.Models
         private const int MovesToGameStage2 = 18;
         private const int PiecesToGameStage3 = 3;
 
-        public static GameStatus GameStatus
+        public static GameStatus GameStatus(Color currentPlayer)
         {
-            get
+            if (Moves < MovesToGameStage2)
             {
-                if (Moves <= MovesToGameStage2)
-                {
-                    return GameStatus.Initialization;
-                }
-                return GameStatus.Middle;
+                return Consts.GameStatus.Initialization;
             }
+
+            if (currentPlayer == Color.White && WhitePieces <= PiecesToGameStage3)
+            {
+                return Consts.GameStatus.WhiteLastStage;
+            }
+
+            if (currentPlayer == Color.Black && BlackPieces <= PiecesToGameStage3)
+            {
+                return Consts.GameStatus.BlackLastStage;
+            }
+            return Consts.GameStatus.Middle;
         }
     }
 }

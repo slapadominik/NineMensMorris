@@ -23,8 +23,10 @@ namespace NineMensMorris
         private int _playerWhitePiecesInit = 0;
         private int _playerBlackPiecesInit = 0;
         private int _toCapture = 0;
-        private string _locationFrom = null;
+        private PictureBox _locationFrom = null;
         private Game _game;
+
+        private int AllMoves => _playerBlackMoves + _playerWhiteMoves;
 
         public Form1()
         {
@@ -32,6 +34,8 @@ namespace NineMensMorris
             System.Drawing.Graphics graphics = this.CreateGraphics();
             System.Drawing.Rectangle rectangle = new System.Drawing.Rectangle(700, 700, 200, 200);
             graphics.DrawEllipse(System.Drawing.Pens.Black, rectangle);
+            winnerPanel.Visible = false;
+            currentPlayerPanel.Visible = false;
         }
 
         public void DrawLShapeLine(System.Drawing.Graphics g, int intMarginLeft, int intMarginTop, int intWidth, int intHeight)
@@ -71,6 +75,8 @@ namespace NineMensMorris
             };
             logsListView.Items.Add(gameSetup.ToString());
             _game = new Game(gameSetup);
+            currentPlayerPanel.Visible = true;
+            currentPlayerLabel.Text = "White";
         }
 
         private void MoveAiButton_Click(object sender, EventArgs e)
@@ -253,40 +259,38 @@ namespace NineMensMorris
                     {
                         CaptureMove(pictureBox.Name, pictureBox);
                     }
-                    else if (GameConfiguration.GameStatus == GameStatus.Initialization)
+                    else if (GameConfiguration.GameStatus(_game.CurrentPlayer.Color) == GameStatus.Initialization)
                     {
                         NormalMove(null, pictureBox.Name, pictureBox);
                     }
-                    else if (GameConfiguration.GameStatus == GameStatus.Middle && _locationFrom == null)
-                    {
-                        if (_game.DoesLocationContainFriendlyPiece(pictureBox.Name))
-                        {
-                            _locationFrom = pictureBox.Name;
-                        }
-                        else
-                        {
-                            logsListView.Items.Add($"Location {pictureBox.Name} does not contain friendly piece.");
-                        }
-                    }
-                    else if (GameConfiguration.GameStatus == GameStatus.Middle && _locationFrom != null)
+                    else if (_locationFrom != null)
                     {
                         if (_game.IsLocationEmpty(pictureBox.Name))
                         {
-                            NormalMove(_locationFrom, pictureBox.Name, pictureBox);
+                            NormalMove(_locationFrom.Name, pictureBox.Name, pictureBox);
+                            RemovePieceFromTile(_locationFrom);
+                            _locationFrom = null;
                         }
                         else
                         {
                             logsListView.Items.Add($"Location {pictureBox.Name} already contains piece.");
                         }
-
                     }
-                    else
+                    else if (_locationFrom == null)
                     {
-
-                    }
+                        if (_game.DoesLocationContainFriendlyPiece(pictureBox.Name))
+                        {
+                            _locationFrom = pictureBox;
+                        }
+                        else
+                        {
+                            logsListView.Items.Add($"Location {pictureBox.Name} does not contain friendly piece.");
+                        }
+                    }              
                 }
                 catch (Exception ex)
                 {
+                    _locationFrom = null;
                     logsListView.Items.Add(ex.Message);
                 }
             }
@@ -304,40 +308,59 @@ namespace NineMensMorris
                 _toCapture++;
             }
             logsListView.Items.Add($"{moveResult.PlayerColor}: MOVE {moveResult.MoveType} {from} -> {to}");
-            if (moveResult.PlayerColor == Logic.Models.Color.White)
+            if (moveResult.PlayerColor == Logic.Consts.Color.White)
             {
-                pictureBox.Image = Resources.PieceWhite;
                 playerWhiteMoves.Text = (++_playerWhiteMoves).ToString();                
-                if (GameConfiguration.GameStatus == GameStatus.Initialization && moveResult.MoveType == MoveType.AddPiece || moveResult.MoveType == MoveType.NewMill)
+                if (_playerWhitePiecesInit < 9 && moveResult.MoveType == MoveType.AddPiece || moveResult.MoveType == MoveType.NewMill)
                 {
                     playerWhitePiecesInit.Text = (++_playerWhitePiecesInit).ToString();
                 }
             }
-            else if (moveResult.PlayerColor == Logic.Models.Color.Black)
+            else if (moveResult.PlayerColor == Logic.Consts.Color.Black)
             {
-                pictureBox.Image = Resources.PieceBlack;
                 playerBlackMoves.Text = (++_playerBlackMoves).ToString();
-                if (GameConfiguration.GameStatus == GameStatus.Initialization && moveResult.MoveType == MoveType.AddPiece || moveResult.MoveType == MoveType.NewMill)
+                if (_playerBlackPiecesInit<9 && moveResult.MoveType == MoveType.AddPiece || moveResult.MoveType == MoveType.NewMill)
                 {
                     playersBlackPiecesInit.Text = (++_playerBlackPiecesInit).ToString();
                 }
             }
-
-            allMovesLabel.Text = (_playerWhiteMoves + _playerBlackMoves).ToString();
-            pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            pictureBox.Left -= 5;
-            pictureBox.Top -= 5;
+            AddPieceToTile(pictureBox, moveResult.PlayerColor);
+            allMovesLabel.Text = AllMoves.ToString();
         }
 
         private void CaptureMove(string to, PictureBox pictureBox)
         {
             var moveResult = _game.HumanCapture(to);
             logsListView.Items.Add($"{moveResult.PlayerColor}: CAPTURED {pictureBox.Name}");
+            RemovePieceFromTile(pictureBox);
+            _toCapture = 0;
+            if (moveResult.MoveType == MoveType.BlackWins)
+            {
+                winnerPanel.Visible = true;
+                winnerColorLabel.Text = "Black";
+            }
+
+            if (moveResult.MoveType == MoveType.WhiteWins)
+            {
+                winnerPanel.Visible = true;
+                winnerColorLabel.Text = "White";
+            }
+        }
+
+        private void AddPieceToTile(PictureBox pictureBox, Logic.Consts.Color color)
+        {
+            pictureBox.Image = color == Logic.Consts.Color.White ? Resources.PieceWhite : Resources.PieceBlack;
+            pictureBox.SizeMode = PictureBoxSizeMode.AutoSize;
+            pictureBox.Left -= 5;
+            pictureBox.Top -= 5;
+        }
+
+        private void RemovePieceFromTile(PictureBox pictureBox)
+        {
             pictureBox.Image = Resources.blackcircle3;
             pictureBox.Left += 5;
             pictureBox.Top += 5;
             pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            _toCapture = 0;
         }
     }
 }

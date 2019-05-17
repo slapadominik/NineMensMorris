@@ -3,6 +3,8 @@
     public enum GameStatus
     {
         Initialization = 1,
-        Middle = 2
+        Middle = 2,
+        WhiteLastStage = 3,
+        BlackLastStage = 4
     }
 }

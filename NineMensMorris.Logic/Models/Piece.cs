@@ -1,4 +1,5 @@
 ﻿using System;
+using NineMensMorris.Logic.Consts;
 
 namespace NineMensMorris.Logic.Models
 {

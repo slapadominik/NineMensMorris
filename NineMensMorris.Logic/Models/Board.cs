@@ -91,7 +91,7 @@ namespace NineMensMorris.Logic.Models
 
         public MoveResult Move(string from, string to, Color currentPlayer)
         {
-            if (GameConfiguration.GameStatus == GameStatus.Initialization)
+            if (GameConfiguration.GameStatus(currentPlayer) == GameStatus.Initialization)
             {
                 var existingPiece = GetPiece(to);
                 if (existingPiece != null)
@@ -99,8 +99,8 @@ namespace NineMensMorris.Logic.Models
                     throw new IllegalMoveException($"Illegal move! Location {to} already contains piece.");
                 }
 
-                var piece = new Piece(currentPlayer, to);
-                SetPiece(to, piece);
+                var pieceTo = new Piece(currentPlayer, to);
+                SetPiece(to, pieceTo);
                 var mills = GetMills(to,currentPlayer);
                 if (mills.Count>0)
                 {
@@ -108,22 +108,47 @@ namespace NineMensMorris.Logic.Models
                 }
                 return new MoveResult(this, MoveType.AddPiece, currentPlayer);
             }
-            else if (GameConfiguration.GameStatus == GameStatus.Middle)
+
+            if (!IsMoveValid(currentPlayer, from, to))
             {
-                var piece = GetPiece(from);
-                if (piece?.Color == currentPlayer)
-                {
-                    throw new IllegalMoveException($"Illegal move! Location {from} does not contain player's piece.");
-                }
-                SetPiece(to, piece);
-                var newMills = GetMills(to, currentPlayer);
-                if (newMills.Count > 0)
-                {
-                    return new MoveResult(this, MoveType.NewMill, currentPlayer);
-                }
-                return new MoveResult(this, MoveType.Normal, currentPlayer);
+                throw new InvalidMoveException($"Illegal move! Cannot make move from {from} to {to}");
             }
-            throw new NotImplementedException();
+            var piece = GetPiece(from);
+            SetPiece(from, null);
+            SetPiece(to, piece);
+            var newMills = GetMills(to, currentPlayer);
+            if (newMills.Count > 0)
+            {
+                return new MoveResult(this, MoveType.NewMill, currentPlayer);
+            }
+            return new MoveResult(this, MoveType.Normal, currentPlayer);
+        }
+
+        private bool IsMoveValid(Color player, string from, string to)
+        {
+            if (!_board.ContainsKey(from) || !_board.ContainsKey(to))
+            {
+                return false;
+            }
+
+            if (_board[to] != null || _board[from].Color != player)
+            {
+                return false;
+            }
+
+            if (GameConfiguration.GameStatus(player) == GameStatus.Middle)
+            {
+                var row = GetRow(from);
+                var column = GetColumn(from);
+                return row.Contains(to) || column.Contains(to);
+            }
+
+            if (GameConfiguration.GameStatus(player) == GameStatus.WhiteLastStage || GameConfiguration.GameStatus(player) == GameStatus.BlackLastStage)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public void SetPiece(string location, Piece piece)
@@ -216,7 +241,7 @@ namespace NineMensMorris.Logic.Models
 
         public IEnumerable<PossibleMove> GetPossibleMoves(Color player)
         {
-            if (GameConfiguration.GameStatus == GameStatus.Initialization)
+            if (GameConfiguration.GameStatus(player) == GameStatus.Initialization)
             {
                 List<PossibleMove> possibleMoves = new List<PossibleMove>();
                 foreach (var key in _board.Keys)
@@ -229,7 +254,7 @@ namespace NineMensMorris.Logic.Models
                 return possibleMoves;
             }
 
-            if (GameConfiguration.GameStatus == GameStatus.Middle)
+            if (GameConfiguration.GameStatus(player) == GameStatus.Middle)
             {
                 return  _board.Values.Where(x => x != null && x.Color == player).SelectMany(x => GetPossibleMoves(x));
             }

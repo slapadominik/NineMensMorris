@@ -56,7 +56,6 @@
             this.d1 = new System.Windows.Forms.PictureBox();
             this.a1 = new System.Windows.Forms.PictureBox();
             this.g4 = new System.Windows.Forms.PictureBox();
-            this.panel5 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.minmaxRadioButton = new System.Windows.Forms.RadioButton();
@@ -110,6 +109,13 @@
             this.label27 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
+            this.panel15 = new System.Windows.Forms.Panel();
+            this.currentPlayerLabel = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.currentPlayerPanel = new System.Windows.Forms.Panel();
+            this.winnerPanel = new System.Windows.Forms.Panel();
+            this.winnerColorLabel = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.e4)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.d5)).BeginInit();
@@ -143,6 +149,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.d7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.a7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.g7)).BeginInit();
+            this.currentPlayerPanel.SuspendLayout();
+            this.winnerPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -161,7 +169,7 @@
             this.e4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.e4.Image = ((System.Drawing.Image)(resources.GetObject("e4.Image")));
             this.e4.InitialImage = ((System.Drawing.Image)(resources.GetObject("e4.InitialImage")));
-            this.e4.Location = new System.Drawing.Point(350, 200);
+            this.e4.Location = new System.Drawing.Point(353, 198);
             this.e4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.e4.Name = "e4";
             this.e4.Size = new System.Drawing.Size(10, 10);
@@ -174,16 +182,14 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.LemonChiffon;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Controls.Add(this.d5);
             this.panel2.Controls.Add(this.e4);
+            this.panel2.Controls.Add(this.d5);
             this.panel2.Controls.Add(this.c5);
             this.panel2.Controls.Add(this.d3);
             this.panel2.Controls.Add(this.c4);
             this.panel2.Controls.Add(this.e3);
             this.panel2.Controls.Add(this.c3);
             this.panel2.Controls.Add(this.e5);
-            this.panel2.Controls.Add(this.b4);
-            this.panel2.Controls.Add(this.f4);
             this.panel2.Controls.Add(this.panel1);
             this.panel2.Location = new System.Drawing.Point(97, 94);
             this.panel2.Margin = new System.Windows.Forms.Padding(4);
@@ -302,7 +308,7 @@
             this.b4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.b4.Image = ((System.Drawing.Image)(resources.GetObject("b4.Image")));
             this.b4.InitialImage = ((System.Drawing.Image)(resources.GetObject("b4.InitialImage")));
-            this.b4.Location = new System.Drawing.Point(-1, 199);
+            this.b4.Location = new System.Drawing.Point(92, 294);
             this.b4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.b4.Name = "b4";
             this.b4.Size = new System.Drawing.Size(10, 10);
@@ -317,7 +323,7 @@
             this.f4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.f4.Image = ((System.Drawing.Image)(resources.GetObject("f4.Image")));
             this.f4.InitialImage = ((System.Drawing.Image)(resources.GetObject("f4.InitialImage")));
-            this.f4.Location = new System.Drawing.Point(444, 200);
+            this.f4.Location = new System.Drawing.Point(547, 293);
             this.f4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.f4.Name = "f4";
             this.f4.Size = new System.Drawing.Size(10, 10);
@@ -332,7 +338,7 @@
             this.f2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.f2.Image = ((System.Drawing.Image)(resources.GetObject("f2.Image")));
             this.f2.InitialImage = ((System.Drawing.Image)(resources.GetObject("f2.InitialImage")));
-            this.f2.Location = new System.Drawing.Point(542, 509);
+            this.f2.Location = new System.Drawing.Point(545, 509);
             this.f2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.f2.Name = "f2";
             this.f2.Size = new System.Drawing.Size(10, 10);
@@ -377,7 +383,7 @@
             this.f6.Cursor = System.Windows.Forms.Cursors.Hand;
             this.f6.Image = ((System.Drawing.Image)(resources.GetObject("f6.Image")));
             this.f6.InitialImage = ((System.Drawing.Image)(resources.GetObject("f6.InitialImage")));
-            this.f6.Location = new System.Drawing.Point(540, 89);
+            this.f6.Location = new System.Drawing.Point(545, 89);
             this.f6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.f6.Name = "f6";
             this.f6.Size = new System.Drawing.Size(10, 10);
@@ -399,6 +405,7 @@
             // 
             this.panel3.BackColor = System.Drawing.Color.LemonChiffon;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.b4);
             this.panel3.Controls.Add(this.d2);
             this.panel3.Controls.Add(this.d6);
             this.panel3.Controls.Add(this.panel6);
@@ -408,6 +415,7 @@
             this.panel3.Controls.Add(this.f6);
             this.panel3.Controls.Add(this.f2);
             this.panel3.Controls.Add(this.b2);
+            this.panel3.Controls.Add(this.f4);
             this.panel3.Controls.Add(this.panel2);
             this.panel3.Location = new System.Drawing.Point(48, 62);
             this.panel3.Margin = new System.Windows.Forms.Padding(4);
@@ -457,10 +465,10 @@
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel4.Location = new System.Drawing.Point(443, 298);
+            this.panel4.Location = new System.Drawing.Point(457, 297);
             this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(210, 1);
+            this.panel4.Size = new System.Drawing.Size(190, 1);
             this.panel4.TabIndex = 5;
             // 
             // g1
@@ -484,7 +492,7 @@
             this.a4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.a4.Image = ((System.Drawing.Image)(resources.GetObject("a4.Image")));
             this.a4.InitialImage = ((System.Drawing.Image)(resources.GetObject("a4.InitialImage")));
-            this.a4.Location = new System.Drawing.Point(43, 358);
+            this.a4.Location = new System.Drawing.Point(45, 357);
             this.a4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.a4.Name = "a4";
             this.a4.Size = new System.Drawing.Size(10, 10);
@@ -537,15 +545,6 @@
             this.g4.TabIndex = 27;
             this.g4.TabStop = false;
             this.g4.Click += new System.EventHandler(this.g4_Click);
-            // 
-            // panel5
-            // 
-            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel5.Location = new System.Drawing.Point(48, 361);
-            this.panel5.Margin = new System.Windows.Forms.Padding(4);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(199, 1);
-            this.panel5.TabIndex = 4;
             // 
             // label1
             // 
@@ -1154,12 +1153,82 @@
             this.label29.TabIndex = 35;
             this.label29.Text = "7";
             // 
+            // panel15
+            // 
+            this.panel15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel15.Location = new System.Drawing.Point(45, 360);
+            this.panel15.Margin = new System.Windows.Forms.Padding(4);
+            this.panel15.Name = "panel15";
+            this.panel15.Size = new System.Drawing.Size(190, 1);
+            this.panel15.TabIndex = 6;
+            // 
+            // currentPlayerLabel
+            // 
+            this.currentPlayerLabel.AutoSize = true;
+            this.currentPlayerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.currentPlayerLabel.Location = new System.Drawing.Point(159, 10);
+            this.currentPlayerLabel.Name = "currentPlayerLabel";
+            this.currentPlayerLabel.Size = new System.Drawing.Size(54, 24);
+            this.currentPlayerLabel.TabIndex = 36;
+            this.currentPlayerLabel.Text = "white";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label13.Location = new System.Drawing.Point(20, 10);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(133, 24);
+            this.label13.TabIndex = 37;
+            this.label13.Text = "Current player:";
+            // 
+            // currentPlayerPanel
+            // 
+            this.currentPlayerPanel.Controls.Add(this.label13);
+            this.currentPlayerPanel.Controls.Add(this.currentPlayerLabel);
+            this.currentPlayerPanel.Location = new System.Drawing.Point(98, 12);
+            this.currentPlayerPanel.Name = "currentPlayerPanel";
+            this.currentPlayerPanel.Size = new System.Drawing.Size(242, 43);
+            this.currentPlayerPanel.TabIndex = 38;
+            // 
+            // winnerPanel
+            // 
+            this.winnerPanel.Controls.Add(this.label30);
+            this.winnerPanel.Controls.Add(this.winnerColorLabel);
+            this.winnerPanel.Location = new System.Drawing.Point(423, 12);
+            this.winnerPanel.Name = "winnerPanel";
+            this.winnerPanel.Size = new System.Drawing.Size(237, 43);
+            this.winnerPanel.TabIndex = 39;
+            // 
+            // winnerColorLabel
+            // 
+            this.winnerColorLabel.AutoSize = true;
+            this.winnerColorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.winnerColorLabel.Location = new System.Drawing.Point(22, 10);
+            this.winnerColorLabel.Name = "winnerColorLabel";
+            this.winnerColorLabel.Size = new System.Drawing.Size(77, 24);
+            this.winnerColorLabel.TabIndex = 0;
+            this.winnerColorLabel.Text = "label30";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label30.Location = new System.Drawing.Point(105, 10);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(58, 24);
+            this.label30.TabIndex = 1;
+            this.label30.Text = "wins!";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1125, 869);
+            this.ClientSize = new System.Drawing.Size(1125, 893);
+            this.Controls.Add(this.winnerPanel);
+            this.Controls.Add(this.currentPlayerPanel);
             this.Controls.Add(this.a4);
+            this.Controls.Add(this.panel15);
             this.Controls.Add(this.g4);
             this.Controls.Add(this.label29);
             this.Controls.Add(this.g1);
@@ -1181,7 +1250,6 @@
             this.Controls.Add(this.MoveAiButton);
             this.Controls.Add(this.d7);
             this.Controls.Add(this.a7);
-            this.Controls.Add(this.panel5);
             this.Controls.Add(this.g7);
             this.Controls.Add(this.logsListView);
             this.Controls.Add(this.panel10);
@@ -1234,6 +1302,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.d7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.a7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.g7)).EndInit();
+            this.currentPlayerPanel.ResumeLayout(false);
+            this.currentPlayerPanel.PerformLayout();
+            this.winnerPanel.ResumeLayout(false);
+            this.winnerPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1244,7 +1316,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label1;
@@ -1322,6 +1393,13 @@
         private System.Windows.Forms.Label playerWhitePiecesInit;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Panel panel15;
+        private System.Windows.Forms.Label currentPlayerLabel;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Panel currentPlayerPanel;
+        private System.Windows.Forms.Panel winnerPanel;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label winnerColorLabel;
     }
 }
 

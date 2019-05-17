@@ -1,4 +1,4 @@
-﻿namespace NineMensMorris.Logic.Models
+﻿namespace NineMensMorris.Logic.Consts
 {
     public enum Color
     {
