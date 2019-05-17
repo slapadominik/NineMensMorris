@@ -15,7 +15,7 @@ namespace NineMensMorris.Logic.Models
         {
             get
             {
-                if (Moves < MovesToGameStage2)
+                if (Moves <= MovesToGameStage2)
                 {
                     return GameStatus.Initialization;
                 }
