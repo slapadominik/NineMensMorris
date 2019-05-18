@@ -6,15 +6,16 @@ using NineMensMorris.Logic.Exceptions;
 
 namespace NineMensMorris.Logic.Models
 {
-    [Serializable]
     public class Board
     {
-        private Dictionary<string, Piece> _board;
-        private static Dictionary<string, List<string>> _neighbours;
-        private static List<List<string>> _rowMillsLocations;
-        private static List<List<string>> _columnMillsLocations;
-        private List<Mill> _whiteMills;
-        private List<Mill> _blackMills;
+        public int Value { get; set; }
+        public IDictionary<string, Piece> BoardState => new Dictionary<string, Piece>(_board);
+
+        private readonly IDictionary<string, Piece> _board;
+        public static readonly IDictionary<string, List<string>> Neighbours;
+        public static readonly IList<List<string>> RowMillsLocations;
+        public static readonly IList<List<string>> ColumnMillsLocations;
+
         public Board()
         {
             _board = new Dictionary<string, Piece>()
@@ -27,13 +28,16 @@ namespace NineMensMorris.Logic.Models
                 {Locations.B2, null}, {Locations.D2, null}, {Locations.F2, null},
                 {Locations.A1,null}, {Locations.D1, null}, {Locations.G1, null},
             };            
-            _whiteMills = new List<Mill>();
-            _blackMills = new List<Mill>();
+        }
+
+        public Board(Board board)
+        {
+            _board = board.BoardState;
         }
 
         static Board()
         {
-            _neighbours = new Dictionary<string, List<string>>()
+            Neighbours = new Dictionary<string, List<string>>()
             {
                 { Locations.A7, new List<string>{Locations.A4, Locations.D7}},
                 { Locations.D7,new List<string>{Locations.A7, Locations.G7, Locations.D6}},
@@ -60,7 +64,7 @@ namespace NineMensMorris.Logic.Models
                 { Locations.D1,new List<string>{Locations.A1, Locations.G1, Locations.D2}},
                 { Locations.G1,new List<string>{Locations.D1, Locations.G4}},
             };
-            _rowMillsLocations = new List<List<string>>
+            RowMillsLocations = new List<List<string>>
             {
                 new List<string>{Locations.A7, Locations.D7, Locations.G7},
                 new List<string>{Locations.B6, Locations.D6, Locations.F6},
@@ -71,7 +75,7 @@ namespace NineMensMorris.Logic.Models
                 new List<string>{Locations.B2, Locations.D2, Locations.F2},
                 new List<string>{Locations.A1, Locations.D1, Locations.G1},
             };
-            _columnMillsLocations = new List<List<string>>
+            ColumnMillsLocations = new List<List<string>>
             {
                 new List<string>{Locations.A7, Locations.A4, Locations.A1},
                 new List<string>{Locations.B6, Locations.B4, Locations.B2},
@@ -82,6 +86,11 @@ namespace NineMensMorris.Logic.Models
                 new List<string>{Locations.F6, Locations.F4, Locations.F2},
                 new List<string>{Locations.G7, Locations.G4, Locations.G1},
             };
+        }
+
+        public IEnumerable<string> GetLocations()
+        {
+            return _board.Keys;
         }
 
         public List<Piece> GetPlayerPieces(Color color)
@@ -122,6 +131,47 @@ namespace NineMensMorris.Logic.Models
                 return new MoveResult(this, MoveType.NewMill, currentPlayer);
             }
             return new MoveResult(this, MoveType.Normal, currentPlayer);
+        }
+
+        public IEnumerable<PossibleMove> GetPossibleMoves(Color player)
+        {
+            if (GameConfiguration.GameStatus(player) == GameStatus.Initialization)
+            {
+                List<PossibleMove> possibleMoves = new List<PossibleMove>();
+                foreach (var key in _board.Keys)
+                {
+                    if (_board[key] == null)
+                    {
+                        possibleMoves.Add(new PossibleMove { To = key, MoveType = MoveType.AddPiece });
+                    }
+                }
+                return possibleMoves;
+            }
+
+            if (GameConfiguration.GameStatus(player) == GameStatus.Middle)
+            {
+                return _board.Values.Where(x => x != null && x.Color == player).SelectMany(x => GetPossibleMoves(x));
+            }
+
+            throw new InvalidOperationException();
+        }
+
+        private IEnumerable<PossibleMove> GetPossibleMoves(Piece piece)
+        {
+            if (GameConfiguration.GameStatus(piece.Color) == GameStatus.BlackLastStage || GameConfiguration.GameStatus(piece.Color) == GameStatus.WhiteLastStage)
+            {
+                List<PossibleMove> possibleMoves = new List<PossibleMove>();
+                foreach (var key in _board.Keys)
+                {
+                    if (_board[key] == null)
+                    {
+                        possibleMoves.Add(new PossibleMove { From = piece.Location, To = key });
+                    }
+                }
+                return possibleMoves;
+            }
+
+            return Board.Neighbours[piece.Location].Where(x => _board[x] == null).Select(x => new PossibleMove { From = piece.Location, To = x });
         }
 
         private bool IsMoveValid(Color player, string from, string to)
@@ -176,7 +226,7 @@ namespace NineMensMorris.Logic.Models
         public int CountNewMills(Color player)
         {
             int mills = 0;
-            foreach (var row in _rowMillsLocations)
+            foreach (var row in RowMillsLocations)
             {
                 var playerPieces = row.Where(x => _board[x]?.Color == player);
                 if (playerPieces.Count() == 3)
@@ -184,7 +234,7 @@ namespace NineMensMorris.Logic.Models
                     mills++;
                 }
             }
-            foreach (var column in _columnMillsLocations)
+            foreach (var column in ColumnMillsLocations)
             {
                 var playerPieces = column.Where(x => _board[x]?.Color == player);
                 if (playerPieces.Count() == 3)
@@ -217,11 +267,11 @@ namespace NineMensMorris.Logic.Models
         private IEnumerable<string> GetRow(string location)
         {
             List<string> row = null;
-            for (int i = 0; i < _rowMillsLocations.Count && row == null; i++)
+            for (int i = 0; i < RowMillsLocations.Count && row == null; i++)
             {
-                if (_rowMillsLocations[i].Contains(location))
+                if (RowMillsLocations[i].Contains(location))
                 {
-                    row = _rowMillsLocations[i];
+                    row = RowMillsLocations[i];
                 }
             }
             return row;
@@ -229,43 +279,20 @@ namespace NineMensMorris.Logic.Models
         private IEnumerable<string> GetColumn(string location)
         {
             List<string> column = null;
-            for (int i = 0; i < _columnMillsLocations.Count && column == null; i++)
+            for (int i = 0; i < ColumnMillsLocations.Count && column == null; i++)
             {
-                if (_columnMillsLocations[i].Contains(location))
+                if (ColumnMillsLocations[i].Contains(location))
                 {
-                    column = _columnMillsLocations[i];
+                    column = ColumnMillsLocations[i];
                 }
             }
             return column;
         }
 
-        public IEnumerable<PossibleMove> GetPossibleMoves(Color player)
-        {
-            if (GameConfiguration.GameStatus(player) == GameStatus.Initialization)
-            {
-                List<PossibleMove> possibleMoves = new List<PossibleMove>();
-                foreach (var key in _board.Keys)
-                {
-                    if (_board[key] == null)
-                    {
-                        possibleMoves.Add(new PossibleMove{To = key, MoveType = MoveType.AddPiece});
-                    }
-                }
-                return possibleMoves;
-            }
-
-            if (GameConfiguration.GameStatus(player) == GameStatus.Middle)
-            {
-                return  _board.Values.Where(x => x != null && x.Color == player).SelectMany(x => GetPossibleMoves(x));
-            }
-
-            throw new InvalidOperationException();
-        }
-
         public IEnumerable<AlmostMill> GetAlmostMills(Color player)
         {
             List<AlmostMill> mills = new List<AlmostMill>();
-            foreach (var row in _rowMillsLocations)
+            foreach (var row in RowMillsLocations)
             {
                 var playersPiecesInRow = row.Where(x => _board[x]?.Color == player);
                 if (playersPiecesInRow.Count() >= 2)
@@ -273,7 +300,7 @@ namespace NineMensMorris.Logic.Models
                     mills.Add(new AlmostMill {Position = Position.Row, Tiles = playersPiecesInRow.ToList()});
                 }
             }
-            foreach (var column in _columnMillsLocations)
+            foreach (var column in ColumnMillsLocations)
             {
                 var playersPiecesInColumn = column.Where(x => _board[x]?.Color == player);
                 if (playersPiecesInColumn.Count() >= 2)
@@ -282,25 +309,6 @@ namespace NineMensMorris.Logic.Models
                 }
             }
             return mills;
-        }
-
-        private IEnumerable<PossibleMove> GetPossibleMoves(Piece piece)
-        {
-            if ((piece.Color == Color.White && GameConfiguration.WhitePieces <= 3) || (piece.Color == Color.Black && GameConfiguration.BlackPieces <=3))
-            {
-                List<PossibleMove> possibleMoves = new List<PossibleMove>();
-                foreach (var key in _board.Keys)
-                {
-                    if (_board[key] == null)
-                    {
-                        possibleMoves.Add(new PossibleMove { From = piece.Location, To = key });
-                    }
-                }
-                return possibleMoves;
-            }
-
-
-            return _neighbours[piece.Location].Where(x => _board[x] == null).Select(x => new PossibleMove{From = piece.Location, To = x});
         }
     }
 }

@@ -28,20 +28,16 @@ namespace NineMensMorris.Logic.Models
         {
             if (_currentPlayer.PlayerType != PlayerType.Human)
             {
-                throw new InvalidPlayerTypeException();
+                throw new InvalidPlayerTypeException($"Invalid move! Current player type is AI.");
             }
 
             var moveResult = _board.Move(from, to, _currentPlayer.Color);
-            if (moveResult.MoveType == MoveType.AddPiece || GameConfiguration.GameStatus(_currentPlayer.Color) == GameStatus.Initialization && moveResult.MoveType == MoveType.NewMill)
+
+            if (moveResult.MoveType == MoveType.AddPiece ||
+                GameConfiguration.GameStatus(_currentPlayer.Color) == GameStatus.Initialization &&
+                moveResult.MoveType == MoveType.NewMill)
             {
-                if (_currentPlayer.Color == Color.White)
-                {
-                    GameConfiguration.WhitePieces++;
-                }
-                else
-                {
-                    GameConfiguration.BlackPieces++;
-                }
+                IncrementPlayersPieces();
             }
 
             if (moveResult.MoveType != MoveType.NewMill)
@@ -50,7 +46,6 @@ namespace NineMensMorris.Logic.Models
                 SetCurrentPlayer(ColorHelper.GetOpponentColor(_currentPlayer.Color));
             }
             return moveResult;
-
         }
 
         public MoveResult HumanCapture(string location)
@@ -82,11 +77,11 @@ namespace NineMensMorris.Logic.Models
             return moveResult;
         }
 
-        public void AiMove()
+        public MoveResult AiMove()
         {
             if (_currentPlayer.PlayerType != PlayerType.AI)
             {
-                throw new InvalidPlayerTypeException();
+                throw new InvalidPlayerTypeException("Invalid move! Current player type is human.");
             }
 
             MoveResult moveResult;
@@ -99,18 +94,27 @@ namespace NineMensMorris.Logic.Models
                 moveResult = _aiBlackMove.Move(_board, _currentPlayer.Color);
             }
             _board = moveResult.Board;
-            GameConfiguration.Moves++;
-            SetOpponentAsCurrentPlayer();
-            if (moveResult.MoveType == MoveType.AddPiece)
+            if (moveResult.MoveType == MoveType.AddPiece ||
+                GameConfiguration.GameStatus(_currentPlayer.Color) == GameStatus.Initialization &&
+                moveResult.MoveType == MoveType.NewMill)
             {
-                if (_currentPlayer.Color == Color.White)
-                {
-                    GameConfiguration.WhitePieces++;
-                }
-                else
-                {
-                    GameConfiguration.BlackPieces++;
-                }
+                IncrementPlayersPieces();
+            }
+
+            SetOpponentAsCurrentPlayer();
+            GameConfiguration.Moves++;
+            return moveResult;
+        }
+
+        private void IncrementPlayersPieces()
+        {
+            if (_currentPlayer.Color == Color.White)
+            {
+                GameConfiguration.WhitePieces++;
+            }
+            else
+            {
+                GameConfiguration.BlackPieces++;
             }
         }
 

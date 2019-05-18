@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NineMensMorris.Logic.AI.CaptureHeuristics;
 using NineMensMorris.Logic.AI.MoveHeuristics;
@@ -13,87 +14,85 @@ namespace NineMensMorris.Logic.AI.Algorithms
     {
         private IGameEvaluationHeuristic _gameEvaluationHeuristic;
         private ICaptureHeuristic _captureHeuristic;
-        private const int Depth = 3;
+        private Random _random;
+        private const int Depth = 4;
+        private PossibleMove _nextMove;
 
         public MinMaxAiMove(IGameEvaluationHeuristic gameEvaluationHeuristic, ICaptureHeuristic captureHeuristic)
         {
             _gameEvaluationHeuristic = gameEvaluationHeuristic;
             _captureHeuristic = captureHeuristic;
+            _random = new Random();
         }
 
         public MoveResult Move(Board board, Color currentPlayer)
         {
-            var stateSpace = BuildStateSpace(board, Depth, currentPlayer);
-            var value = Minimax(stateSpace, Depth, currentPlayer);
-            var bestAvailableMove = stateSpace.Children.Single(x => x.Value == value);
-            return new MoveResult (board, bestAvailableMove.MoveType, currentPlayer);
+            var bestMoveValue = Minimax(board, Depth, currentPlayer);
+            var moveResult = board.Move(_nextMove.From, _nextMove.To, currentPlayer);
+            if (moveResult.MoveType == MoveType.NewMill)
+            {
+                CapturePiece(board, currentPlayer);
+            }
+            return new MoveResult (moveResult.Board, moveResult.MoveType, currentPlayer);
         }
 
-        public Node BuildStateSpace(Board board, int depth, Color currentPlayer)
+        public int Minimax(Board board, int depth, Color currentPlayer)
         {
             if (depth == 0)
             {
-                return null;
-            }
-
-            Node node = new Node(currentPlayer) { Board = board, MoveType = MoveType.Normal};
-            var possibleMoves = board.GetPossibleMoves(currentPlayer);
-            foreach (var move in possibleMoves)
-            {
-                var newBoard = board.DeepClone();
-                if (GameConfiguration.GameStatus(currentPlayer) == GameStatus.Initialization)
-                {
-                    newBoard.SetPiece(move.To, new Piece(currentPlayer, move.To));
-                    node.MoveType = MoveType.AddPiece;
-                }
-                else
-                {
-                    var piece = newBoard.GetPiece(move.From);
-                    newBoard.SetPiece(move.To, piece);
-                }
-                var millsCount = newBoard.CountNewMills(currentPlayer);
-                if (millsCount > 0)
-                {
-                    var captureLocation = _captureHeuristic.ChoosePieceToCapture(newBoard, currentPlayer);
-                    board.SetPiece(captureLocation, null);
-                    node.MoveType = MoveType.Capture;
-                }
-                node.AddState(BuildStateSpace(newBoard, depth - 1, ColorHelper.GetOpponentColor(currentPlayer)));
-            }
-            return node;
-        }
-
-        public int Minimax(Node position, int depth, Color currentPlayer)
-        {
-            if (depth == 0)
-            {
-                var value = _gameEvaluationHeuristic.EvaluateGameState(position, currentPlayer);
-                position.Value = value;
+                var value = _gameEvaluationHeuristic.EvaluateGameState(board, currentPlayer);
+                board.Value = value;
                 return value;
             }
 
             if (currentPlayer == Color.White)
             {
-                var maxEval = Int32.MaxValue;
-                foreach (var child in position.Children)
+                var maxEval = Int32.MinValue;
+                foreach (var possibleMove in board.GetPossibleMoves(currentPlayer))
                 {
-                    var eval = Minimax(child, depth-1, ColorHelper.GetOpponentColor(currentPlayer));
+                    var newBoard = new Board(board);
+                    var moveResult = newBoard.Move(possibleMove.From, possibleMove.To, currentPlayer);
+                    if (moveResult.MoveType == MoveType.NewMill)
+                    {
+                        CapturePiece(newBoard, currentPlayer);
+                    }
+                    var eval = Minimax(newBoard, depth-1, ColorHelper.GetOpponentColor(currentPlayer));
+                    if (eval > maxEval)
+                    {
+                        _nextMove = possibleMove;
+                    }
                     maxEval = Math.Max(maxEval, eval);
                 }
-                position.Value = maxEval;
+                board.Value = maxEval;
                 return maxEval;
             }
             else
             {
-                var minEval = Int32.MinValue;
-                foreach (var child in position.Children)
+                var minEval = Int32.MaxValue;
+                foreach (var possibleMove in board.GetPossibleMoves(currentPlayer))
                 {
-                    var eval = Minimax(child, depth - 1, ColorHelper.GetOpponentColor(currentPlayer));
+                    var newBoard = new Board(board);
+                    var moveResult = newBoard.Move(possibleMove.From, possibleMove.To, currentPlayer);
+                    if (moveResult.MoveType == MoveType.NewMill)
+                    {
+                        CapturePiece(newBoard, currentPlayer);
+                    }
+                    var eval = Minimax(newBoard, depth - 1, ColorHelper.GetOpponentColor(currentPlayer));
+                    if (eval < minEval)
+                    {
+                        _nextMove = possibleMove;
+                    }
                     minEval = Math.Min(minEval, eval);
                 }
-                position.Value = minEval;
+                board.Value = minEval;
                 return minEval;
             }
+        }
+
+        private void CapturePiece(Board board, Color currentPlayer)
+        {
+            var locationCapture = _captureHeuristic.ChoosePieceToCapture(board, currentPlayer);
+            board.SetPiece(locationCapture, null);
         }
     }
 }

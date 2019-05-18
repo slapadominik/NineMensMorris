@@ -5,9 +5,9 @@ namespace NineMensMorris.Logic.AI.MoveHeuristics
 {
     public class PiecesCountGameEvaluationHeuristic : IGameEvaluationHeuristic
     {
-        public int EvaluateGameState(Node state, Color currentPlayer)
+        public int EvaluateGameState(Board board, Color currentPlayer)
         {
-            return state.Board.GetPlayerPieces(currentPlayer).Count;
+            return board.GetPlayerPieces(currentPlayer).Count;
         }
     }
 }

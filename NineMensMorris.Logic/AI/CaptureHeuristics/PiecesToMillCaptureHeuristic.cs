@@ -11,7 +11,7 @@ namespace NineMensMorris.Logic.AI.CaptureHeuristics
         private readonly Random random = new Random();
         public string ChoosePieceToCapture(Board board, Color currentPlayer)
         {
-            var almostMills = board.GetAlmostMills(currentPlayer);
+            var almostMills = board.GetAlmostMills(ColorHelper.GetOpponentColor(currentPlayer));
             if (almostMills.Any())
             {
                 var almostMill = almostMills.ElementAt(random.Next(0, almostMills.Count()));
