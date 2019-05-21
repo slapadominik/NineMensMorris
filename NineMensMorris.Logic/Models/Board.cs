@@ -6,19 +6,18 @@ using System.Reflection;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Exceptions;
 using NineMensMorris.Logic.Extensions;
+using NineMensMorris.Logic.Helpers;
 
 namespace NineMensMorris.Logic.Models
 {
     public class Board
     {
-        public int Value { get; set; }
         public IDictionary<string, Piece> BoardState => DeepCopyBoard(_board);
-
-        private readonly IDictionary<string, Piece> _board;
         public static readonly IDictionary<string, List<string>> Neighbours;
         public static readonly IList<List<string>> RowMillsLocations;
         public static readonly IList<List<string>> ColumnMillsLocations;
 
+        private readonly IDictionary<string, Piece> _board;
 
         public Board()
         {
@@ -95,6 +94,33 @@ namespace NineMensMorris.Logic.Models
         public IEnumerable<string> GetLocations()
         {
             return _board.Keys;
+        }
+
+
+        public bool IsCaptureMoveValid(string captureDestination, Color currentPlayer)
+        {
+            if (!_board.ContainsKey(captureDestination))
+            {
+                return false;
+            }
+
+            var piece = GetPiece(captureDestination);
+            if (piece == null)
+            {
+                return false;
+            }
+            if (piece.Color == currentPlayer)
+            {
+                return false;
+            }
+
+            var mill = GetMills(captureDestination, ColorHelper.GetOpponentColor(currentPlayer));
+            if (mill != null && mill.Any())
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public List<Piece> GetPlayerPieces(Color color)
@@ -179,18 +205,12 @@ namespace NineMensMorris.Logic.Models
 
         private bool IsMoveValid(Color player, string from, string to)
         {
-            if (!_board.ContainsKey(from) || !_board.ContainsKey(to))
-            {
-                return false;
-            }
-
-            if (_board[to] != null || _board[from] == null || _board[from]?.Color != player)
-            {
-                return false;
-            }
-
             if (GameConfiguration.GameStatus(player) == GameStatus.Middle)
             {
+                if (_board[to] != null || _board[from] == null || _board[from]?.Color != player)
+                {
+                    return false;
+                }
                 var row = GetRow(from);
                 var column = GetColumn(from);
                 return row.Contains(to) || column.Contains(to);
@@ -198,6 +218,11 @@ namespace NineMensMorris.Logic.Models
 
             if (GameConfiguration.GameStatus(player) == GameStatus.WhiteLastStage || GameConfiguration.GameStatus(player) == GameStatus.BlackLastStage)
             {
+                if (_board[to] != null || _board[from] == null || _board[from]?.Color != player)
+                {
+                    return false;
+                }
+
                 return true;
             }
 
@@ -298,7 +323,7 @@ namespace NineMensMorris.Logic.Models
             foreach (var row in RowMillsLocations)
             {
                 var playersPiecesInRow = row.Where(x => _board[x]?.Color == player);
-                if (playersPiecesInRow.Count() >= 2)
+                if (playersPiecesInRow.Count() == 2)
                 {
                     mills.Add(new AlmostMill {Position = Position.Row, Tiles = playersPiecesInRow.ToList()});
                 }
@@ -306,7 +331,7 @@ namespace NineMensMorris.Logic.Models
             foreach (var column in ColumnMillsLocations)
             {
                 var playersPiecesInColumn = column.Where(x => _board[x]?.Color == player);
-                if (playersPiecesInColumn.Count() >= 2)
+                if (playersPiecesInColumn.Count() == 2)
                 {
                     mills.Add(new AlmostMill { Position = Position.Column, Tiles = playersPiecesInColumn.ToList() });
                 }

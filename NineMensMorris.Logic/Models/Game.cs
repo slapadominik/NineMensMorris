@@ -24,6 +24,11 @@ namespace NineMensMorris.Logic.Models
             _currentPlayer = _playerWhite;
         }
 
+        public Player CurrentPlayer
+        {
+            get { return _currentPlayer; }
+        }
+
         public MoveResult HumanMove(string from, string to)
         {
             if (_currentPlayer.PlayerType != PlayerType.Human)
@@ -50,15 +55,16 @@ namespace NineMensMorris.Logic.Models
 
         public MoveResult HumanCapture(string location)
         {
-            if (_board.GetPiece(location)?.Color != ColorHelper.GetOpponentColor(_currentPlayer.Color))
+            if (!_board.IsCaptureMoveValid(location, _currentPlayer.Color))
             {
-                throw new IllegalMoveException($"Illegal capture move! Location {location} does not contain opponent's piece.");
+                throw new IllegalMoveException($"Illegal capture move! Cannot capture piece on location {location}");
             }
+
             _board.SetPiece(location, null);
             if (_currentPlayer.Color == Color.White)
             {
                 GameConfiguration.BlackPieces--;
-                if (GameConfiguration.BlackPieces == 0)
+                if (GameConfiguration.GameStatus(_currentPlayer.Color) == GameStatus.WhiteWins)
                 {
                     return new MoveResult(_board, MoveType.WhiteWins, CurrentPlayer.Color);
                 }
@@ -66,9 +72,9 @@ namespace NineMensMorris.Logic.Models
             else
             {
                 GameConfiguration.WhitePieces--;
-                if (GameConfiguration.WhitePieces == 0)
+                if (GameConfiguration.GameStatus(_currentPlayer.Color) == GameStatus.BlackWins)
                 {
-                    return new MoveResult(_board, MoveType.WhiteWins, CurrentPlayer.Color);
+                    return new MoveResult(_board, MoveType.BlackWins, CurrentPlayer.Color);
                 }
             }
             var moveResult = new MoveResult(_board, MoveType.Capture, CurrentPlayer.Color);
@@ -110,6 +116,20 @@ namespace NineMensMorris.Logic.Models
             return moveResult;
         }
 
+        public bool IsLocationEmpty(string location)
+        {
+            return _board.GetPiece(location) == null;
+        }
+
+        public bool DoesLocationContainFriendlyPiece(string location)
+        {
+            if (_board.GetPiece(location) == null)
+            {
+                return false;
+            }
+            return _board.GetPiece(location).Color == _currentPlayer.Color;
+        }
+
         private void IncrementPlayersPieces()
         {
             if (_currentPlayer.Color == Color.White)
@@ -132,25 +152,6 @@ namespace NineMensMorris.Logic.Models
             {
                 GameConfiguration.WhitePieces++;
             }
-        }
-
-        public bool IsLocationEmpty(string location)
-        {
-            return _board.GetPiece(location) == null;
-        }
-
-        public bool DoesLocationContainFriendlyPiece(string location)
-        {
-            if (_board.GetPiece(location) == null)
-            {
-                return false;
-            }
-            return _board.GetPiece(location).Color == _currentPlayer.Color;
-        }
-
-        public Player CurrentPlayer
-        {
-            get { return _currentPlayer; }
         }
 
         private void SetOpponentAsCurrentPlayer()

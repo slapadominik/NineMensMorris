@@ -19,7 +19,13 @@ namespace NineMensMorris.Logic.AI.CaptureHeuristics
             }
 
             var opponentPieces = board.GetPlayerPieces(ColorHelper.GetOpponentColor(currentPlayer));
-            return opponentPieces[random.Next(0, opponentPieces.Count)].Location;
+            var validCaptures = opponentPieces.Where(x => board.IsCaptureMoveValid(x.Location, currentPlayer));
+            if (validCaptures.Any())
+            {
+                return validCaptures.ElementAt(random.Next(0, validCaptures.Count())).Location;
+            }
+
+            return null;
         }
     }
 }

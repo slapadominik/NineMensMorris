@@ -18,6 +18,16 @@ namespace NineMensMorris.Logic.Models
                 return Consts.GameStatus.Initialization;
             }
 
+            if (WhitePieces == 0)
+            {
+                return Consts.GameStatus.BlackWins;
+            }
+
+            if (BlackPieces == 0)
+            {
+                return Consts.GameStatus.WhiteWins;
+            }
+
             if (currentPlayer == Color.White && WhitePieces <= PiecesToGameStage3)
             {
                 return Consts.GameStatus.WhiteLastStage;

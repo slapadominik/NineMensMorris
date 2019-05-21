@@ -122,7 +122,10 @@ namespace NineMensMorris.Logic.AI.Algorithms
         private void CapturePiece(Board board, Color currentPlayer)
         {
             var locationCapture = _captureHeuristic.ChoosePieceToCapture(board, currentPlayer);
-            board.SetPiece(locationCapture, null);
+            if (locationCapture != null)
+            {
+                board.SetPiece(locationCapture, null);
+            }
         }
     }
 }

@@ -61,6 +61,8 @@
             this.minmaxPlayerWhiteRadioButton = new System.Windows.Forms.RadioButton();
             this.panel8 = new System.Windows.Forms.Panel();
             this.panel18 = new System.Windows.Forms.Panel();
+            this.twoPieceConfBlackHeuristic = new System.Windows.Forms.RadioButton();
+            this.threePieceConfBlackHeuristic = new System.Windows.Forms.RadioButton();
             this.millsCountHeuristicPlayerBlackRadioButton = new System.Windows.Forms.RadioButton();
             this.label36 = new System.Windows.Forms.Label();
             this.piecesCountHeuristicPlayerBlackRadioButton = new System.Windows.Forms.RadioButton();
@@ -71,6 +73,8 @@
             this.label33 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.panel17 = new System.Windows.Forms.Panel();
+            this.threePieceConfWhiteHeuristic = new System.Windows.Forms.RadioButton();
+            this.twoPieceConfWhiteHeuristic = new System.Windows.Forms.RadioButton();
             this.millsCountHeuristicPlayerWhiteRadioButton = new System.Windows.Forms.RadioButton();
             this.label35 = new System.Windows.Forms.Label();
             this.piecesCountHeuristicPlayerWhiteRadioButton = new System.Windows.Forms.RadioButton();
@@ -135,10 +139,6 @@
             this.nodesVisitedLabel = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.twoPieceConfWhiteHeuristic = new System.Windows.Forms.RadioButton();
-            this.threePieceConfBlackHeuristic = new System.Windows.Forms.RadioButton();
-            this.twoPieceConfBlackHeuristic = new System.Windows.Forms.RadioButton();
-            this.threePieceConfWhiteHeuristic = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.e4)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.d5)).BeginInit();
@@ -639,6 +639,32 @@
             this.panel18.Size = new System.Drawing.Size(227, 146);
             this.panel18.TabIndex = 14;
             // 
+            // twoPieceConfBlackHeuristic
+            // 
+            this.twoPieceConfBlackHeuristic.AutoSize = true;
+            this.twoPieceConfBlackHeuristic.Location = new System.Drawing.Point(9, 83);
+            this.twoPieceConfBlackHeuristic.Margin = new System.Windows.Forms.Padding(4);
+            this.twoPieceConfBlackHeuristic.Name = "twoPieceConfBlackHeuristic";
+            this.twoPieceConfBlackHeuristic.Size = new System.Drawing.Size(179, 21);
+            this.twoPieceConfBlackHeuristic.TabIndex = 14;
+            this.twoPieceConfBlackHeuristic.Tag = "3";
+            this.twoPieceConfBlackHeuristic.Text = "Two piece configuration";
+            this.twoPieceConfBlackHeuristic.UseVisualStyleBackColor = true;
+            this.twoPieceConfBlackHeuristic.CheckedChanged += new System.EventHandler(this.twoPieceConfBlackHeuristic_CheckedChanged);
+            // 
+            // threePieceConfBlackHeuristic
+            // 
+            this.threePieceConfBlackHeuristic.AutoSize = true;
+            this.threePieceConfBlackHeuristic.Location = new System.Drawing.Point(9, 113);
+            this.threePieceConfBlackHeuristic.Margin = new System.Windows.Forms.Padding(4);
+            this.threePieceConfBlackHeuristic.Name = "threePieceConfBlackHeuristic";
+            this.threePieceConfBlackHeuristic.Size = new System.Drawing.Size(191, 21);
+            this.threePieceConfBlackHeuristic.TabIndex = 14;
+            this.threePieceConfBlackHeuristic.Tag = "4";
+            this.threePieceConfBlackHeuristic.Text = "Three piece configuration";
+            this.threePieceConfBlackHeuristic.UseVisualStyleBackColor = true;
+            this.threePieceConfBlackHeuristic.CheckedChanged += new System.EventHandler(this.threePieceConfBlackHeuristic_CheckedChanged);
+            // 
             // millsCountHeuristicPlayerBlackRadioButton
             // 
             this.millsCountHeuristicPlayerBlackRadioButton.AutoSize = true;
@@ -758,6 +784,32 @@
             this.panel17.Name = "panel17";
             this.panel17.Size = new System.Drawing.Size(227, 140);
             this.panel17.TabIndex = 13;
+            // 
+            // threePieceConfWhiteHeuristic
+            // 
+            this.threePieceConfWhiteHeuristic.AutoSize = true;
+            this.threePieceConfWhiteHeuristic.Location = new System.Drawing.Point(7, 111);
+            this.threePieceConfWhiteHeuristic.Margin = new System.Windows.Forms.Padding(4);
+            this.threePieceConfWhiteHeuristic.Name = "threePieceConfWhiteHeuristic";
+            this.threePieceConfWhiteHeuristic.Size = new System.Drawing.Size(191, 21);
+            this.threePieceConfWhiteHeuristic.TabIndex = 15;
+            this.threePieceConfWhiteHeuristic.Tag = "4";
+            this.threePieceConfWhiteHeuristic.Text = "Three piece configuration";
+            this.threePieceConfWhiteHeuristic.UseVisualStyleBackColor = true;
+            this.threePieceConfWhiteHeuristic.CheckedChanged += new System.EventHandler(this.threePieceConfWhiteHeuristic_CheckedChanged);
+            // 
+            // twoPieceConfWhiteHeuristic
+            // 
+            this.twoPieceConfWhiteHeuristic.AutoSize = true;
+            this.twoPieceConfWhiteHeuristic.Location = new System.Drawing.Point(9, 83);
+            this.twoPieceConfWhiteHeuristic.Margin = new System.Windows.Forms.Padding(4);
+            this.twoPieceConfWhiteHeuristic.Name = "twoPieceConfWhiteHeuristic";
+            this.twoPieceConfWhiteHeuristic.Size = new System.Drawing.Size(179, 21);
+            this.twoPieceConfWhiteHeuristic.TabIndex = 13;
+            this.twoPieceConfWhiteHeuristic.Tag = "3";
+            this.twoPieceConfWhiteHeuristic.Text = "Two piece configuration";
+            this.twoPieceConfWhiteHeuristic.UseVisualStyleBackColor = true;
+            this.twoPieceConfWhiteHeuristic.CheckedChanged += new System.EventHandler(this.twoPieceConfWhiteHeuristic_CheckedChanged);
             // 
             // millsCountHeuristicPlayerWhiteRadioButton
             // 
@@ -1383,7 +1435,7 @@
             // 
             this.currentPlayerLabel.AutoSize = true;
             this.currentPlayerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.currentPlayerLabel.Location = new System.Drawing.Point(159, 10);
+            this.currentPlayerLabel.Location = new System.Drawing.Point(149, 10);
             this.currentPlayerLabel.Name = "currentPlayerLabel";
             this.currentPlayerLabel.Size = new System.Drawing.Size(54, 24);
             this.currentPlayerLabel.TabIndex = 36;
@@ -1421,7 +1473,7 @@
             // 
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label30.Location = new System.Drawing.Point(105, 10);
+            this.label30.Location = new System.Drawing.Point(93, 10);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(58, 24);
             this.label30.TabIndex = 1;
@@ -1480,58 +1532,6 @@
             this.label5.Size = new System.Drawing.Size(90, 20);
             this.label5.TabIndex = 13;
             this.label5.Text = "AI results";
-            // 
-            // twoPieceConfWhiteHeuristic
-            // 
-            this.twoPieceConfWhiteHeuristic.AutoSize = true;
-            this.twoPieceConfWhiteHeuristic.Location = new System.Drawing.Point(9, 83);
-            this.twoPieceConfWhiteHeuristic.Margin = new System.Windows.Forms.Padding(4);
-            this.twoPieceConfWhiteHeuristic.Name = "twoPieceConfWhiteHeuristic";
-            this.twoPieceConfWhiteHeuristic.Size = new System.Drawing.Size(179, 21);
-            this.twoPieceConfWhiteHeuristic.TabIndex = 13;
-            this.twoPieceConfWhiteHeuristic.Tag = "3";
-            this.twoPieceConfWhiteHeuristic.Text = "Two piece configuration";
-            this.twoPieceConfWhiteHeuristic.UseVisualStyleBackColor = true;
-            this.twoPieceConfWhiteHeuristic.CheckedChanged += new System.EventHandler(this.twoPieceConfWhiteHeuristic_CheckedChanged);
-            // 
-            // threePieceConfBlackHeuristic
-            // 
-            this.threePieceConfBlackHeuristic.AutoSize = true;
-            this.threePieceConfBlackHeuristic.Location = new System.Drawing.Point(9, 113);
-            this.threePieceConfBlackHeuristic.Margin = new System.Windows.Forms.Padding(4);
-            this.threePieceConfBlackHeuristic.Name = "threePieceConfBlackHeuristic";
-            this.threePieceConfBlackHeuristic.Size = new System.Drawing.Size(191, 21);
-            this.threePieceConfBlackHeuristic.TabIndex = 14;
-            this.threePieceConfBlackHeuristic.Tag = "4";
-            this.threePieceConfBlackHeuristic.Text = "Three piece configuration";
-            this.threePieceConfBlackHeuristic.UseVisualStyleBackColor = true;
-            this.threePieceConfBlackHeuristic.CheckedChanged += new System.EventHandler(this.threePieceConfBlackHeuristic_CheckedChanged);
-            // 
-            // twoPieceConfBlackHeuristic
-            // 
-            this.twoPieceConfBlackHeuristic.AutoSize = true;
-            this.twoPieceConfBlackHeuristic.Location = new System.Drawing.Point(9, 83);
-            this.twoPieceConfBlackHeuristic.Margin = new System.Windows.Forms.Padding(4);
-            this.twoPieceConfBlackHeuristic.Name = "twoPieceConfBlackHeuristic";
-            this.twoPieceConfBlackHeuristic.Size = new System.Drawing.Size(179, 21);
-            this.twoPieceConfBlackHeuristic.TabIndex = 14;
-            this.twoPieceConfBlackHeuristic.Tag = "3";
-            this.twoPieceConfBlackHeuristic.Text = "Two piece configuration";
-            this.twoPieceConfBlackHeuristic.UseVisualStyleBackColor = true;
-            this.twoPieceConfBlackHeuristic.CheckedChanged += new System.EventHandler(this.twoPieceConfBlackHeuristic_CheckedChanged);
-            // 
-            // threePieceConfWhiteHeuristic
-            // 
-            this.threePieceConfWhiteHeuristic.AutoSize = true;
-            this.threePieceConfWhiteHeuristic.Location = new System.Drawing.Point(7, 111);
-            this.threePieceConfWhiteHeuristic.Margin = new System.Windows.Forms.Padding(4);
-            this.threePieceConfWhiteHeuristic.Name = "threePieceConfWhiteHeuristic";
-            this.threePieceConfWhiteHeuristic.Size = new System.Drawing.Size(191, 21);
-            this.threePieceConfWhiteHeuristic.TabIndex = 15;
-            this.threePieceConfWhiteHeuristic.Tag = "4";
-            this.threePieceConfWhiteHeuristic.Text = "Three piece configuration";
-            this.threePieceConfWhiteHeuristic.UseVisualStyleBackColor = true;
-            this.threePieceConfWhiteHeuristic.CheckedChanged += new System.EventHandler(this.threePieceConfWhiteHeuristic_CheckedChanged);
             // 
             // Form1
             // 
