@@ -4,6 +4,8 @@
     {
         None = 0,
         PiecesCount = 1,
-        MillsCount = 2
+        MillsCount = 2,
+        TwoConfigurationCount = 3,
+        BlockedPiecesCount = 4
     }
 }

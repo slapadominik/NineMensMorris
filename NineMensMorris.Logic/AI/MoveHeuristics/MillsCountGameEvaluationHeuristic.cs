@@ -7,7 +7,11 @@ namespace NineMensMorris.Logic.AI.MoveHeuristics
     {
         public int EvaluateGameState(Board board, Color currentPlayer)
         {
-            return board.CountMills(currentPlayer);
+            if (currentPlayer == Color.White)
+            {
+                return board.CountMills(currentPlayer)*10;
+            }
+            else return board.CountMills(currentPlayer) * (-10);
         }
     }
 }

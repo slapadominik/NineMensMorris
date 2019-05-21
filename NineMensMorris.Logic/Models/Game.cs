@@ -100,6 +100,10 @@ namespace NineMensMorris.Logic.Models
             {
                 IncrementPlayersPieces();
             }
+            if (moveResult.MoveType == MoveType.Capture || moveResult.MoveType == MoveType.NewMill)
+            {
+                DecrementOpponentPieces();
+            }
 
             SetOpponentAsCurrentPlayer();
             GameConfiguration.Moves++;
@@ -115,6 +119,18 @@ namespace NineMensMorris.Logic.Models
             else
             {
                 GameConfiguration.BlackPieces++;
+            }
+        }
+
+        private void DecrementOpponentPieces()
+        {
+            if (_currentPlayer.Color == Color.White)
+            {
+                GameConfiguration.BlackPieces--;
+            }
+            else
+            {
+                GameConfiguration.WhitePieces++;
             }
         }
 
@@ -173,6 +189,9 @@ namespace NineMensMorris.Logic.Models
                         case GameEvaluationHeuristics.MillsCount:
                             _aiWhiteMove = new MinMaxAiMove(new MillsCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
                             break;
+                        case GameEvaluationHeuristics.TwoConfigurationCount:
+                            _aiWhiteMove = new MinMaxAiMove(new TwoConfigurationCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
+                            break;
                         default:
                             _aiWhiteMove = new MinMaxAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
                             break;
@@ -180,7 +199,21 @@ namespace NineMensMorris.Logic.Models
                 }
                 else if (gameConfig.PlayerWhiteAiType == AiAlgorithmType.AlphaBeta)
                 {
-                    _aiWhiteMove = new AlphaBetaAiMove();
+                    switch (gameConfig.PlayerWhiteAiGameEvaluationHeuristics)
+                    {
+                        case GameEvaluationHeuristics.PiecesCount:
+                            _aiWhiteMove = new AlphaBetaAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
+                            break;
+                        case GameEvaluationHeuristics.MillsCount:
+                            _aiWhiteMove = new AlphaBetaAiMove(new MillsCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
+                            break;
+                        case GameEvaluationHeuristics.TwoConfigurationCount:
+                            _aiWhiteMove = new AlphaBetaAiMove(new TwoConfigurationCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
+                            break;
+                        default:
+                            _aiWhiteMove = new AlphaBetaAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
+                            break;
+                    }
                 }
             }
             else
@@ -205,6 +238,9 @@ namespace NineMensMorris.Logic.Models
                         case GameEvaluationHeuristics.MillsCount:
                             _aiBlackMove = new MinMaxAiMove(new MillsCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
                             break;
+                        case GameEvaluationHeuristics.TwoConfigurationCount:
+                            _aiBlackMove = new MinMaxAiMove(new TwoConfigurationCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
+                            break;
                         default:
                             _aiBlackMove = new MinMaxAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
                             break;
@@ -212,7 +248,21 @@ namespace NineMensMorris.Logic.Models
                 }
                 else if (gameConfig.PlayerBlackAiType == AiAlgorithmType.AlphaBeta)
                 {
-                    _aiBlackMove = new AlphaBetaAiMove();
+                    switch (gameConfig.PlayerWhiteAiGameEvaluationHeuristics)
+                    {
+                        case GameEvaluationHeuristics.PiecesCount:
+                            _aiBlackMove = new AlphaBetaAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
+                            break;
+                        case GameEvaluationHeuristics.MillsCount:
+                            _aiBlackMove = new AlphaBetaAiMove(new MillsCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
+                            break;
+                        case GameEvaluationHeuristics.TwoConfigurationCount:
+                            _aiBlackMove = new AlphaBetaAiMove(new TwoConfigurationCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
+                            break;
+                        default:
+                            _aiBlackMove = new AlphaBetaAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
+                            break;
+                    }
                 }
             }
             else

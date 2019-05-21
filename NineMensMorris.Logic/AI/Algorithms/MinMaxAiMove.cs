@@ -22,6 +22,9 @@ namespace NineMensMorris.Logic.AI.Algorithms
         private Board _nextMinBoard;
         private Stopwatch _stopwatch;
         private int _nodesVisited = 0;
+        private int _possibleMaxMoveIndex = 0;
+        private int _possibleMinMoveIndex = 0;
+        private IList<PossibleMove> _possibleMoves;
 
         public MinMaxAiMove(IGameEvaluationHeuristic gameEvaluationHeuristic, ICaptureHeuristic captureHeuristic)
         {
@@ -79,23 +82,20 @@ namespace NineMensMorris.Logic.AI.Algorithms
                     {
                         CapturePiece(newBoard, currentPlayer);
                     }
-                    var eval = Minimax(newBoard, depth-1, ColorHelper.GetOpponentColor(currentPlayer));
+                    var eval = Minimax(newBoard, depth - 1, ColorHelper.GetOpponentColor(currentPlayer));
                     if (eval > maxEval)
                     {
-                        _nextMaxMove = possibleMove;
+                        _nextMinMove = possibleMove;
                     }
                     maxEval = Math.Max(maxEval, eval);
                     _nodesVisited++;
                 }
-
-                _nextMaxBoard = board;
                 return maxEval;
             }
             else
             {
                 var minEval = Int32.MaxValue;
-                var possibleMoves = board.GetPossibleMoves(currentPlayer);
-                foreach (var possibleMove in possibleMoves)
+                foreach (var possibleMove in board.GetPossibleMoves(currentPlayer))
                 {
                     var newBoard = new Board(board);
                     var moveResult = newBoard.Move(possibleMove.From, possibleMove.To, currentPlayer);
@@ -111,8 +111,6 @@ namespace NineMensMorris.Logic.AI.Algorithms
                     minEval = Math.Min(minEval, eval);
                     _nodesVisited++;
                 }
-
-                _nextMinBoard = board;
                 return minEval;
             }
         }

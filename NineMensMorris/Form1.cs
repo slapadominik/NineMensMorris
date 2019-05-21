@@ -220,10 +220,24 @@ namespace NineMensMorris
                 LogAiMove(moveResult);
                 IncrementPlayersPiecesCounters(moveResult);
                 SetAiStatistics(moveResult);
+                SetCurrentPlayerText();
+                SetAllMovesText();
             }
             catch (Exception ex)
             {
                 logsListView.Items.Add(ex.Message);
+            }
+        }
+
+        private void SetCurrentPlayerText()
+        {
+            if (GameConfiguration.Moves % 2 == 0)
+            {
+                currentPlayerLabel.Text = "white";
+            }
+            else
+            {
+                currentPlayerLabel.Text = "black";
             }
         }
 
@@ -353,47 +367,56 @@ namespace NineMensMorris
 
         private void Move(PictureBox pictureBox)
         {
-            if (_game != null && _game.CurrentPlayer.PlayerType == PlayerType.Human)
+            if (_game != null)
             {
-                try
+                if (_game.CurrentPlayer.PlayerType == PlayerType.Human)
                 {
-                    if (_toCapture > 0)
+                    try
                     {
-                        CaptureMove(pictureBox.Name, pictureBox);
+                        if (_toCapture > 0)
+                        {
+                            CaptureMove(pictureBox.Name, pictureBox);
+                        }
+                        else if (GameConfiguration.GameStatus(_game.CurrentPlayer.Color) == GameStatus.Initialization)
+                        {
+                            NormalMove(null, pictureBox.Name, pictureBox);
+                        }
+                        else if (_locationFrom != null)
+                        {
+                            if (_game.IsLocationEmpty(pictureBox.Name))
+                            {
+                                NormalMove(_locationFrom.Name, pictureBox.Name, pictureBox);
+                                RemovePieceFromTile(_locationFrom);
+                                _locationFrom = null;
+                            }
+                            else
+                            {
+                                logsListView.Items.Add($"Location {pictureBox.Name} already contains piece.");
+                            }
+                        }
+                        else if (_locationFrom == null)
+                        {
+                            if (_game.DoesLocationContainFriendlyPiece(pictureBox.Name))
+                            {
+                                _locationFrom = pictureBox;
+                            }
+                            else
+                            {
+                                logsListView.Items.Add($"Location {pictureBox.Name} does not contain friendly piece.");
+                            }
+                        }
+
+                        SetCurrentPlayerText();
                     }
-                    else if (GameConfiguration.GameStatus(_game.CurrentPlayer.Color) == GameStatus.Initialization)
+                    catch (Exception ex)
                     {
-                        NormalMove(null, pictureBox.Name, pictureBox);
+                        _locationFrom = null;
+                        logsListView.Items.Add(ex.Message);
                     }
-                    else if (_locationFrom != null)
-                    {
-                        if (_game.IsLocationEmpty(pictureBox.Name))
-                        {
-                            NormalMove(_locationFrom.Name, pictureBox.Name, pictureBox);
-                            RemovePieceFromTile(_locationFrom);
-                            _locationFrom = null;
-                        }
-                        else
-                        {
-                            logsListView.Items.Add($"Location {pictureBox.Name} already contains piece.");
-                        }
-                    }
-                    else if (_locationFrom == null)
-                    {
-                        if (_game.DoesLocationContainFriendlyPiece(pictureBox.Name))
-                        {
-                            _locationFrom = pictureBox;
-                        }
-                        else
-                        {
-                            logsListView.Items.Add($"Location {pictureBox.Name} does not contain friendly piece.");
-                        }
-                    }              
                 }
-                catch (Exception ex)
+                else
                 {
-                    _locationFrom = null;
-                    logsListView.Items.Add(ex.Message);
+                    logsListView.Items.Add("It's AI move right now. Press Move AI button to make move.");
                 }
             }
             else
@@ -486,6 +509,11 @@ namespace NineMensMorris
             }
         }
 
+        private void SetAllMovesText()
+        {
+            allMovesLabel.Text = GameConfiguration.Moves.ToString();
+        }
+
         private void LogAiMove(AiMoveResult move)
         {
             logsListView.Items.Add($"{move.PlayerColor}: MOVE {move.MoveType}. Elapsed time: {move.Elapsed}. Nodes visited: {move.NodesVisited}");
@@ -495,6 +523,42 @@ namespace NineMensMorris
         {
             timeAiMoveLabel.Text = move.Elapsed.ToString();
             nodesVisitedLabel.Text = move.NodesVisited.ToString();
+        }
+
+        private void twoPieceConfWhiteHeuristic_CheckedChanged(object sender, EventArgs e)
+        {
+            if (twoPieceConfWhiteHeuristic.Checked)
+            {
+                var heurisitc = int.Parse((string)twoPieceConfWhiteHeuristic.Tag);
+                _gameEvaluationHeuristicWhitePlayer = (GameEvaluationHeuristics)heurisitc;
+            }
+        }
+
+        private void threePieceConfWhiteHeuristic_CheckedChanged(object sender, EventArgs e)
+        {
+            if (threePieceConfWhiteHeuristic.Checked)
+            {
+                var heurisitc = int.Parse((string)threePieceConfWhiteHeuristic.Tag);
+                _gameEvaluationHeuristicWhitePlayer = (GameEvaluationHeuristics)heurisitc;
+            }
+        }
+
+        private void twoPieceConfBlackHeuristic_CheckedChanged(object sender, EventArgs e)
+        {
+            if (twoPieceConfBlackHeuristic.Checked)
+            {
+                var heurisitc = int.Parse((string)twoPieceConfBlackHeuristic.Tag);
+                _gameEvaluationHeuristicBlackPlayer = (GameEvaluationHeuristics)heurisitc;
+            }
+        }
+
+        private void threePieceConfBlackHeuristic_CheckedChanged(object sender, EventArgs e)
+        {
+            if (twoPieceConfBlackHeuristic.Checked)
+            {
+                var heurisitc = int.Parse((string)twoPieceConfBlackHeuristic.Tag);
+                _gameEvaluationHeuristicBlackPlayer = (GameEvaluationHeuristics)heurisitc;
+            }
         }
     }
 }
