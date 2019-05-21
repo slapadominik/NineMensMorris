@@ -77,14 +77,14 @@ namespace NineMensMorris.Logic.Models
             return moveResult;
         }
 
-        public MoveResult AiMove()
+        public AiMoveResult AiMove()
         {
             if (_currentPlayer.PlayerType != PlayerType.AI)
             {
                 throw new InvalidPlayerTypeException("Invalid move! Current player type is human.");
             }
 
-            MoveResult moveResult;
+            AiMoveResult moveResult;
             if (_currentPlayer.Color == Color.White)
             {
                 moveResult = _aiWhiteMove.Move(_board, _currentPlayer.Color);
@@ -165,10 +165,13 @@ namespace NineMensMorris.Logic.Models
                 _playerWhite = new Player(Color.White, PlayerType.AI);
                 if (gameConfig.PlayerWhiteAiType == AiAlgorithmType.MinMax)
                 {
-                    switch (gameConfig.PlayerWhiteAiHeuristics)
+                    switch (gameConfig.PlayerWhiteAiGameEvaluationHeuristics)
                     {
-                        case Heuristics.PiecesCount:
+                        case GameEvaluationHeuristics.PiecesCount:
                             _aiWhiteMove = new MinMaxAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
+                            break;
+                        case GameEvaluationHeuristics.MillsCount:
+                            _aiWhiteMove = new MinMaxAiMove(new MillsCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
                             break;
                         default:
                             _aiWhiteMove = new MinMaxAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
@@ -194,10 +197,13 @@ namespace NineMensMorris.Logic.Models
                 _playerBlack = new Player(Color.Black, PlayerType.AI);
                 if (gameConfig.PlayerWhiteAiType == AiAlgorithmType.MinMax)
                 {
-                    switch (gameConfig.PlayerBlackAiHeuristics)
+                    switch (gameConfig.PlayerBlackAiGameEvaluationHeuristics)
                     {
-                        case Heuristics.PiecesCount:
+                        case GameEvaluationHeuristics.PiecesCount:
                             _aiBlackMove = new MinMaxAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
+                            break;
+                        case GameEvaluationHeuristics.MillsCount:
+                            _aiBlackMove = new MinMaxAiMove(new MillsCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());
                             break;
                         default:
                             _aiBlackMove = new MinMaxAiMove(new PiecesCountGameEvaluationHeuristic(), new PiecesToMillCaptureHeuristic());

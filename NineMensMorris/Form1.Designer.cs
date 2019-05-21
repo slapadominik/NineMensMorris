@@ -58,13 +58,28 @@
             this.g4 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.minmaxRadioButton = new System.Windows.Forms.RadioButton();
+            this.minmaxPlayerWhiteRadioButton = new System.Windows.Forms.RadioButton();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.panel18 = new System.Windows.Forms.Panel();
+            this.millsCountHeuristicPlayerBlackRadioButton = new System.Windows.Forms.RadioButton();
+            this.label36 = new System.Windows.Forms.Label();
+            this.piecesCountHeuristicPlayerBlackRadioButton = new System.Windows.Forms.RadioButton();
+            this.label34 = new System.Windows.Forms.Label();
+            this.panel16 = new System.Windows.Forms.Panel();
+            this.minMaxPlayerBlackRadioButton = new System.Windows.Forms.RadioButton();
+            this.alphaBetaPlayerBlackRadioButton = new System.Windows.Forms.RadioButton();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.panel17 = new System.Windows.Forms.Panel();
+            this.millsCountHeuristicPlayerWhiteRadioButton = new System.Windows.Forms.RadioButton();
+            this.label35 = new System.Windows.Forms.Label();
+            this.piecesCountHeuristicPlayerWhiteRadioButton = new System.Windows.Forms.RadioButton();
             this.panel14 = new System.Windows.Forms.Panel();
+            this.millsCountGameHeuristicRb = new System.Windows.Forms.RadioButton();
             this.label15 = new System.Windows.Forms.Label();
-            this.radioButton7 = new System.Windows.Forms.RadioButton();
+            this.piecesDifferenceHeuristicRb = new System.Windows.Forms.RadioButton();
             this.panel13 = new System.Windows.Forms.Panel();
-            this.alphaBetaRadioButton = new System.Windows.Forms.RadioButton();
+            this.alphaBetaPlayerWhiteRadioButton = new System.Windows.Forms.RadioButton();
             this.label14 = new System.Windows.Forms.Label();
             this.panel9 = new System.Windows.Forms.Panel();
             this.panel12 = new System.Windows.Forms.Panel();
@@ -84,12 +99,12 @@
             this.playerWhiteMoves = new System.Windows.Forms.Label();
             this.playerBlackMoves = new System.Windows.Forms.Label();
             this.allMovesLabel = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.timeAiMoveLabel = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.logsListView = new System.Windows.Forms.ListBox();
             this.d7 = new System.Windows.Forms.PictureBox();
             this.a7 = new System.Windows.Forms.PictureBox();
@@ -114,8 +129,12 @@
             this.label13 = new System.Windows.Forms.Label();
             this.currentPlayerPanel = new System.Windows.Forms.Panel();
             this.winnerPanel = new System.Windows.Forms.Panel();
-            this.winnerColorLabel = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
+            this.winnerColorLabel = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.nodesVisitedLabel = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.e4)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.d5)).BeginInit();
@@ -140,6 +159,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.a1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.g4)).BeginInit();
             this.panel8.SuspendLayout();
+            this.panel18.SuspendLayout();
+            this.panel16.SuspendLayout();
+            this.panel17.SuspendLayout();
             this.panel14.SuspendLayout();
             this.panel13.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -151,6 +173,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.g7)).BeginInit();
             this.currentPlayerPanel.SuspendLayout();
             this.winnerPanel.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -550,7 +573,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(56, 14);
+            this.label1.Location = new System.Drawing.Point(202, 13);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 20);
@@ -561,46 +584,233 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(52, 16);
+            this.label2.Location = new System.Drawing.Point(84, 15);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(99, 20);
             this.label2.TabIndex = 6;
             this.label2.Text = "Game type";
             // 
-            // minmaxRadioButton
+            // minmaxPlayerWhiteRadioButton
             // 
-            this.minmaxRadioButton.AutoSize = true;
-            this.minmaxRadioButton.Location = new System.Drawing.Point(7, 42);
-            this.minmaxRadioButton.Margin = new System.Windows.Forms.Padding(4);
-            this.minmaxRadioButton.Name = "minmaxRadioButton";
-            this.minmaxRadioButton.Size = new System.Drawing.Size(79, 21);
-            this.minmaxRadioButton.TabIndex = 7;
-            this.minmaxRadioButton.TabStop = true;
-            this.minmaxRadioButton.Text = "Minimax";
-            this.minmaxRadioButton.UseVisualStyleBackColor = true;
+            this.minmaxPlayerWhiteRadioButton.AutoSize = true;
+            this.minmaxPlayerWhiteRadioButton.Checked = true;
+            this.minmaxPlayerWhiteRadioButton.Location = new System.Drawing.Point(7, 42);
+            this.minmaxPlayerWhiteRadioButton.Margin = new System.Windows.Forms.Padding(4);
+            this.minmaxPlayerWhiteRadioButton.Name = "minmaxPlayerWhiteRadioButton";
+            this.minmaxPlayerWhiteRadioButton.Size = new System.Drawing.Size(76, 21);
+            this.minmaxPlayerWhiteRadioButton.TabIndex = 7;
+            this.minmaxPlayerWhiteRadioButton.TabStop = true;
+            this.minmaxPlayerWhiteRadioButton.Text = "MinMax";
+            this.minmaxPlayerWhiteRadioButton.UseVisualStyleBackColor = true;
+            this.minmaxPlayerWhiteRadioButton.CheckedChanged += new System.EventHandler(this.minmaxPlayerWhiteRadioButton_CheckedChanged);
             // 
             // panel8
             // 
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel8.Controls.Add(this.panel18);
+            this.panel8.Controls.Add(this.label34);
+            this.panel8.Controls.Add(this.panel16);
+            this.panel8.Controls.Add(this.label32);
+            this.panel8.Controls.Add(this.panel17);
             this.panel8.Controls.Add(this.panel14);
             this.panel8.Controls.Add(this.panel13);
             this.panel8.Controls.Add(this.label1);
-            this.panel8.Location = new System.Drawing.Point(793, 214);
+            this.panel8.Location = new System.Drawing.Point(774, 183);
             this.panel8.Margin = new System.Windows.Forms.Padding(4);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(298, 281);
+            this.panel8.Size = new System.Drawing.Size(501, 310);
             this.panel8.TabIndex = 8;
+            // 
+            // panel18
+            // 
+            this.panel18.Controls.Add(this.millsCountHeuristicPlayerBlackRadioButton);
+            this.panel18.Controls.Add(this.label36);
+            this.panel18.Controls.Add(this.piecesCountHeuristicPlayerBlackRadioButton);
+            this.panel18.Location = new System.Drawing.Point(268, 172);
+            this.panel18.Margin = new System.Windows.Forms.Padding(4);
+            this.panel18.Name = "panel18";
+            this.panel18.Size = new System.Drawing.Size(227, 123);
+            this.panel18.TabIndex = 14;
+            // 
+            // millsCountHeuristicPlayerBlackRadioButton
+            // 
+            this.millsCountHeuristicPlayerBlackRadioButton.AutoSize = true;
+            this.millsCountHeuristicPlayerBlackRadioButton.Location = new System.Drawing.Point(9, 54);
+            this.millsCountHeuristicPlayerBlackRadioButton.Margin = new System.Windows.Forms.Padding(4);
+            this.millsCountHeuristicPlayerBlackRadioButton.Name = "millsCountHeuristicPlayerBlackRadioButton";
+            this.millsCountHeuristicPlayerBlackRadioButton.Size = new System.Drawing.Size(159, 21);
+            this.millsCountHeuristicPlayerBlackRadioButton.TabIndex = 12;
+            this.millsCountHeuristicPlayerBlackRadioButton.Tag = "2";
+            this.millsCountHeuristicPlayerBlackRadioButton.Text = "Mills count for player";
+            this.millsCountHeuristicPlayerBlackRadioButton.UseVisualStyleBackColor = true;
+            this.millsCountHeuristicPlayerBlackRadioButton.CheckedChanged += new System.EventHandler(this.millsCountHeuristicPlayerBlackRadioButton_CheckedChanged);
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label36.Location = new System.Drawing.Point(4, 5);
+            this.label36.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(205, 17);
+            this.label36.TabIndex = 10;
+            this.label36.Text = "Game evaluation heuristics";
+            // 
+            // piecesCountHeuristicPlayerBlackRadioButton
+            // 
+            this.piecesCountHeuristicPlayerBlackRadioButton.AutoSize = true;
+            this.piecesCountHeuristicPlayerBlackRadioButton.Checked = true;
+            this.piecesCountHeuristicPlayerBlackRadioButton.Location = new System.Drawing.Point(9, 25);
+            this.piecesCountHeuristicPlayerBlackRadioButton.Margin = new System.Windows.Forms.Padding(4);
+            this.piecesCountHeuristicPlayerBlackRadioButton.Name = "piecesCountHeuristicPlayerBlackRadioButton";
+            this.piecesCountHeuristicPlayerBlackRadioButton.Size = new System.Drawing.Size(177, 21);
+            this.piecesCountHeuristicPlayerBlackRadioButton.TabIndex = 11;
+            this.piecesCountHeuristicPlayerBlackRadioButton.TabStop = true;
+            this.piecesCountHeuristicPlayerBlackRadioButton.Tag = "1";
+            this.piecesCountHeuristicPlayerBlackRadioButton.Text = "Pieces count difference";
+            this.piecesCountHeuristicPlayerBlackRadioButton.UseVisualStyleBackColor = true;
+            this.piecesCountHeuristicPlayerBlackRadioButton.CheckedChanged += new System.EventHandler(this.piecesCountHeuristicPlayerBlackRadioButton_CheckedChanged);
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(352, 39);
+            this.label34.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(85, 17);
+            this.label34.TabIndex = 15;
+            this.label34.Text = "Player black";
+            // 
+            // panel16
+            // 
+            this.panel16.Controls.Add(this.minMaxPlayerBlackRadioButton);
+            this.panel16.Controls.Add(this.alphaBetaPlayerBlackRadioButton);
+            this.panel16.Controls.Add(this.label33);
+            this.panel16.Location = new System.Drawing.Point(268, 70);
+            this.panel16.Margin = new System.Windows.Forms.Padding(4);
+            this.panel16.Name = "panel16";
+            this.panel16.Size = new System.Drawing.Size(227, 96);
+            this.panel16.TabIndex = 13;
+            // 
+            // minMaxPlayerBlackRadioButton
+            // 
+            this.minMaxPlayerBlackRadioButton.AutoSize = true;
+            this.minMaxPlayerBlackRadioButton.Checked = true;
+            this.minMaxPlayerBlackRadioButton.Location = new System.Drawing.Point(7, 42);
+            this.minMaxPlayerBlackRadioButton.Margin = new System.Windows.Forms.Padding(4);
+            this.minMaxPlayerBlackRadioButton.Name = "minMaxPlayerBlackRadioButton";
+            this.minMaxPlayerBlackRadioButton.Size = new System.Drawing.Size(76, 21);
+            this.minMaxPlayerBlackRadioButton.TabIndex = 7;
+            this.minMaxPlayerBlackRadioButton.TabStop = true;
+            this.minMaxPlayerBlackRadioButton.Text = "MinMax";
+            this.minMaxPlayerBlackRadioButton.UseVisualStyleBackColor = true;
+            this.minMaxPlayerBlackRadioButton.CheckedChanged += new System.EventHandler(this.minMaxPlayerBlackRadioButton_CheckedChanged);
+            // 
+            // alphaBetaPlayerBlackRadioButton
+            // 
+            this.alphaBetaPlayerBlackRadioButton.AutoSize = true;
+            this.alphaBetaPlayerBlackRadioButton.Location = new System.Drawing.Point(7, 70);
+            this.alphaBetaPlayerBlackRadioButton.Margin = new System.Windows.Forms.Padding(4);
+            this.alphaBetaPlayerBlackRadioButton.Name = "alphaBetaPlayerBlackRadioButton";
+            this.alphaBetaPlayerBlackRadioButton.Size = new System.Drawing.Size(94, 21);
+            this.alphaBetaPlayerBlackRadioButton.TabIndex = 8;
+            this.alphaBetaPlayerBlackRadioButton.Text = "AlphaBeta";
+            this.alphaBetaPlayerBlackRadioButton.UseVisualStyleBackColor = true;
+            this.alphaBetaPlayerBlackRadioButton.CheckedChanged += new System.EventHandler(this.alphaBetaPlayerBlackRadioButton_CheckedChanged);
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label33.Location = new System.Drawing.Point(12, 11);
+            this.label33.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(76, 17);
+            this.label33.TabIndex = 9;
+            this.label33.Text = "Algorithm";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(79, 39);
+            this.label32.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(84, 17);
+            this.label32.TabIndex = 14;
+            this.label32.Text = "Player white";
+            // 
+            // panel17
+            // 
+            this.panel17.Controls.Add(this.millsCountHeuristicPlayerWhiteRadioButton);
+            this.panel17.Controls.Add(this.label35);
+            this.panel17.Controls.Add(this.piecesCountHeuristicPlayerWhiteRadioButton);
+            this.panel17.Location = new System.Drawing.Point(20, 174);
+            this.panel17.Margin = new System.Windows.Forms.Padding(4);
+            this.panel17.Name = "panel17";
+            this.panel17.Size = new System.Drawing.Size(227, 123);
+            this.panel17.TabIndex = 13;
+            // 
+            // millsCountHeuristicPlayerWhiteRadioButton
+            // 
+            this.millsCountHeuristicPlayerWhiteRadioButton.AutoSize = true;
+            this.millsCountHeuristicPlayerWhiteRadioButton.Location = new System.Drawing.Point(9, 54);
+            this.millsCountHeuristicPlayerWhiteRadioButton.Margin = new System.Windows.Forms.Padding(4);
+            this.millsCountHeuristicPlayerWhiteRadioButton.Name = "millsCountHeuristicPlayerWhiteRadioButton";
+            this.millsCountHeuristicPlayerWhiteRadioButton.Size = new System.Drawing.Size(159, 21);
+            this.millsCountHeuristicPlayerWhiteRadioButton.TabIndex = 12;
+            this.millsCountHeuristicPlayerWhiteRadioButton.Tag = "2";
+            this.millsCountHeuristicPlayerWhiteRadioButton.Text = "Mills count for player";
+            this.millsCountHeuristicPlayerWhiteRadioButton.UseVisualStyleBackColor = true;
+            this.millsCountHeuristicPlayerWhiteRadioButton.CheckedChanged += new System.EventHandler(this.millsCountHeuristicPlayerWhiteRadioButton_CheckedChanged);
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label35.Location = new System.Drawing.Point(4, 5);
+            this.label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(205, 17);
+            this.label35.TabIndex = 10;
+            this.label35.Text = "Game evaluation heuristics";
+            // 
+            // piecesCountHeuristicPlayerWhiteRadioButton
+            // 
+            this.piecesCountHeuristicPlayerWhiteRadioButton.AutoSize = true;
+            this.piecesCountHeuristicPlayerWhiteRadioButton.Checked = true;
+            this.piecesCountHeuristicPlayerWhiteRadioButton.Location = new System.Drawing.Point(9, 25);
+            this.piecesCountHeuristicPlayerWhiteRadioButton.Margin = new System.Windows.Forms.Padding(4);
+            this.piecesCountHeuristicPlayerWhiteRadioButton.Name = "piecesCountHeuristicPlayerWhiteRadioButton";
+            this.piecesCountHeuristicPlayerWhiteRadioButton.Size = new System.Drawing.Size(177, 21);
+            this.piecesCountHeuristicPlayerWhiteRadioButton.TabIndex = 11;
+            this.piecesCountHeuristicPlayerWhiteRadioButton.TabStop = true;
+            this.piecesCountHeuristicPlayerWhiteRadioButton.Tag = "1";
+            this.piecesCountHeuristicPlayerWhiteRadioButton.Text = "Pieces count difference";
+            this.piecesCountHeuristicPlayerWhiteRadioButton.UseVisualStyleBackColor = true;
+            this.piecesCountHeuristicPlayerWhiteRadioButton.CheckedChanged += new System.EventHandler(this.piecesCountHeuristicPlayerWhiteRadioButton_CheckedChanged);
             // 
             // panel14
             // 
+            this.panel14.Controls.Add(this.millsCountGameHeuristicRb);
             this.panel14.Controls.Add(this.label15);
-            this.panel14.Controls.Add(this.radioButton7);
-            this.panel14.Location = new System.Drawing.Point(20, 138);
+            this.panel14.Controls.Add(this.piecesDifferenceHeuristicRb);
+            this.panel14.Location = new System.Drawing.Point(20, 174);
             this.panel14.Margin = new System.Windows.Forms.Padding(4);
             this.panel14.Name = "panel14";
-            this.panel14.Size = new System.Drawing.Size(227, 80);
+            this.panel14.Size = new System.Drawing.Size(227, 123);
             this.panel14.TabIndex = 13;
+            // 
+            // millsCountGameHeuristicRb
+            // 
+            this.millsCountGameHeuristicRb.AutoSize = true;
+            this.millsCountGameHeuristicRb.Location = new System.Drawing.Point(9, 54);
+            this.millsCountGameHeuristicRb.Margin = new System.Windows.Forms.Padding(4);
+            this.millsCountGameHeuristicRb.Name = "millsCountGameHeuristicRb";
+            this.millsCountGameHeuristicRb.Size = new System.Drawing.Size(159, 21);
+            this.millsCountGameHeuristicRb.TabIndex = 12;
+            this.millsCountGameHeuristicRb.Text = "Mills count for player";
+            this.millsCountGameHeuristicRb.UseVisualStyleBackColor = true;
             // 
             // label15
             // 
@@ -613,40 +823,41 @@
             this.label15.TabIndex = 10;
             this.label15.Text = "Game evaluation heuristics";
             // 
-            // radioButton7
+            // piecesDifferenceHeuristicRb
             // 
-            this.radioButton7.AutoSize = true;
-            this.radioButton7.Location = new System.Drawing.Point(9, 25);
-            this.radioButton7.Margin = new System.Windows.Forms.Padding(4);
-            this.radioButton7.Name = "radioButton7";
-            this.radioButton7.Size = new System.Drawing.Size(110, 21);
-            this.radioButton7.TabIndex = 11;
-            this.radioButton7.TabStop = true;
-            this.radioButton7.Text = "Pieces count";
-            this.radioButton7.UseVisualStyleBackColor = true;
+            this.piecesDifferenceHeuristicRb.AutoSize = true;
+            this.piecesDifferenceHeuristicRb.Checked = true;
+            this.piecesDifferenceHeuristicRb.Location = new System.Drawing.Point(9, 25);
+            this.piecesDifferenceHeuristicRb.Margin = new System.Windows.Forms.Padding(4);
+            this.piecesDifferenceHeuristicRb.Name = "piecesDifferenceHeuristicRb";
+            this.piecesDifferenceHeuristicRb.Size = new System.Drawing.Size(177, 21);
+            this.piecesDifferenceHeuristicRb.TabIndex = 11;
+            this.piecesDifferenceHeuristicRb.TabStop = true;
+            this.piecesDifferenceHeuristicRb.Text = "Pieces count difference";
+            this.piecesDifferenceHeuristicRb.UseVisualStyleBackColor = true;
             // 
             // panel13
             // 
-            this.panel13.Controls.Add(this.minmaxRadioButton);
-            this.panel13.Controls.Add(this.alphaBetaRadioButton);
+            this.panel13.Controls.Add(this.minmaxPlayerWhiteRadioButton);
+            this.panel13.Controls.Add(this.alphaBetaPlayerWhiteRadioButton);
             this.panel13.Controls.Add(this.label14);
-            this.panel13.Location = new System.Drawing.Point(20, 38);
+            this.panel13.Location = new System.Drawing.Point(20, 70);
             this.panel13.Margin = new System.Windows.Forms.Padding(4);
             this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(116, 96);
+            this.panel13.Size = new System.Drawing.Size(227, 96);
             this.panel13.TabIndex = 12;
             // 
-            // alphaBetaRadioButton
+            // alphaBetaPlayerWhiteRadioButton
             // 
-            this.alphaBetaRadioButton.AutoSize = true;
-            this.alphaBetaRadioButton.Location = new System.Drawing.Point(7, 70);
-            this.alphaBetaRadioButton.Margin = new System.Windows.Forms.Padding(4);
-            this.alphaBetaRadioButton.Name = "alphaBetaRadioButton";
-            this.alphaBetaRadioButton.Size = new System.Drawing.Size(98, 21);
-            this.alphaBetaRadioButton.TabIndex = 8;
-            this.alphaBetaRadioButton.TabStop = true;
-            this.alphaBetaRadioButton.Text = "Alpha-beta";
-            this.alphaBetaRadioButton.UseVisualStyleBackColor = true;
+            this.alphaBetaPlayerWhiteRadioButton.AutoSize = true;
+            this.alphaBetaPlayerWhiteRadioButton.Location = new System.Drawing.Point(7, 70);
+            this.alphaBetaPlayerWhiteRadioButton.Margin = new System.Windows.Forms.Padding(4);
+            this.alphaBetaPlayerWhiteRadioButton.Name = "alphaBetaPlayerWhiteRadioButton";
+            this.alphaBetaPlayerWhiteRadioButton.Size = new System.Drawing.Size(94, 21);
+            this.alphaBetaPlayerWhiteRadioButton.TabIndex = 8;
+            this.alphaBetaPlayerWhiteRadioButton.Text = "AlphaBeta";
+            this.alphaBetaPlayerWhiteRadioButton.UseVisualStyleBackColor = true;
+            this.alphaBetaPlayerWhiteRadioButton.CheckedChanged += new System.EventHandler(this.alphaBetaPlayerWhiteRadioButton_CheckedChanged);
             // 
             // label14
             // 
@@ -667,17 +878,17 @@
             this.panel9.Controls.Add(this.label4);
             this.panel9.Controls.Add(this.label3);
             this.panel9.Controls.Add(this.label2);
-            this.panel9.Location = new System.Drawing.Point(793, 57);
+            this.panel9.Location = new System.Drawing.Point(870, 44);
             this.panel9.Margin = new System.Windows.Forms.Padding(4);
             this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(221, 131);
+            this.panel9.Size = new System.Drawing.Size(270, 131);
             this.panel9.TabIndex = 12;
             // 
             // panel12
             // 
             this.panel12.Controls.Add(this.playerBlackAIRadioButton);
             this.panel12.Controls.Add(this.playerBlackHumanRadioButton);
-            this.panel12.Location = new System.Drawing.Point(111, 65);
+            this.panel12.Location = new System.Drawing.Point(152, 65);
             this.panel12.Margin = new System.Windows.Forms.Padding(4);
             this.panel12.Name = "panel12";
             this.panel12.Size = new System.Drawing.Size(109, 65);
@@ -714,7 +925,7 @@
             // 
             this.panel11.Controls.Add(this.playerWhiteAIRadioButton);
             this.panel11.Controls.Add(this.playerWhiteHumanRadioButton);
-            this.panel11.Location = new System.Drawing.Point(-1, 65);
+            this.panel11.Location = new System.Drawing.Point(10, 65);
             this.panel11.Margin = new System.Windows.Forms.Padding(4);
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(107, 65);
@@ -750,7 +961,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(129, 49);
+            this.label4.Location = new System.Drawing.Point(158, 44);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(85, 17);
@@ -760,7 +971,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 49);
+            this.label3.Location = new System.Drawing.Point(18, 48);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 17);
@@ -770,7 +981,7 @@
             // StartGameButton
             // 
             this.StartGameButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.StartGameButton.Location = new System.Drawing.Point(742, 806);
+            this.StartGameButton.Location = new System.Drawing.Point(857, 808);
             this.StartGameButton.Margin = new System.Windows.Forms.Padding(4);
             this.StartGameButton.Name = "StartGameButton";
             this.StartGameButton.Size = new System.Drawing.Size(160, 47);
@@ -789,16 +1000,14 @@
             this.panel10.Controls.Add(this.playerWhiteMoves);
             this.panel10.Controls.Add(this.playerBlackMoves);
             this.panel10.Controls.Add(this.allMovesLabel);
-            this.panel10.Controls.Add(this.label5);
             this.panel10.Controls.Add(this.label10);
             this.panel10.Controls.Add(this.label9);
             this.panel10.Controls.Add(this.label8);
-            this.panel10.Controls.Add(this.label7);
             this.panel10.Controls.Add(this.label6);
-            this.panel10.Location = new System.Drawing.Point(793, 517);
+            this.panel10.Location = new System.Drawing.Point(774, 515);
             this.panel10.Margin = new System.Windows.Forms.Padding(4);
             this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(283, 226);
+            this.panel10.Size = new System.Drawing.Size(261, 248);
             this.panel10.TabIndex = 16;
             // 
             // playersBlackPiecesInit
@@ -871,16 +1080,6 @@
             this.allMovesLabel.TabIndex = 6;
             this.allMovesLabel.Text = "0";
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(224, 54);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(23, 17);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "0s";
-            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -911,26 +1110,36 @@
             this.label8.TabIndex = 2;
             this.label8.Text = "All moves:";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label6.Location = new System.Drawing.Point(70, 39);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(122, 20);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Game results";
+            // 
+            // timeAiMoveLabel
+            // 
+            this.timeAiMoveLabel.AutoSize = true;
+            this.timeAiMoveLabel.Location = new System.Drawing.Point(116, 81);
+            this.timeAiMoveLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.timeAiMoveLabel.Name = "timeAiMoveLabel";
+            this.timeAiMoveLabel.Size = new System.Drawing.Size(23, 17);
+            this.timeAiMoveLabel.TabIndex = 5;
+            this.timeAiMoveLabel.Text = "0s";
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(17, 54);
+            this.label7.Location = new System.Drawing.Point(10, 83);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(43, 17);
             this.label7.TabIndex = 1;
             this.label7.Text = "Time:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label6.Location = new System.Drawing.Point(67, 18);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(73, 20);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Results";
             // 
             // logsListView
             // 
@@ -990,7 +1199,7 @@
             // MoveAiButton
             // 
             this.MoveAiButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.MoveAiButton.Location = new System.Drawing.Point(934, 806);
+            this.MoveAiButton.Location = new System.Drawing.Point(1079, 806);
             this.MoveAiButton.Margin = new System.Windows.Forms.Padding(4);
             this.MoveAiButton.Name = "MoveAiButton";
             this.MoveAiButton.Size = new System.Drawing.Size(157, 50);
@@ -1200,16 +1409,6 @@
             this.winnerPanel.Size = new System.Drawing.Size(237, 43);
             this.winnerPanel.TabIndex = 39;
             // 
-            // winnerColorLabel
-            // 
-            this.winnerColorLabel.AutoSize = true;
-            this.winnerColorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.winnerColorLabel.Location = new System.Drawing.Point(22, 10);
-            this.winnerColorLabel.Name = "winnerColorLabel";
-            this.winnerColorLabel.Size = new System.Drawing.Size(77, 24);
-            this.winnerColorLabel.TabIndex = 0;
-            this.winnerColorLabel.Text = "label30";
-            // 
             // label30
             // 
             this.label30.AutoSize = true;
@@ -1220,11 +1419,66 @@
             this.label30.TabIndex = 1;
             this.label30.Text = "wins!";
             // 
+            // winnerColorLabel
+            // 
+            this.winnerColorLabel.AutoSize = true;
+            this.winnerColorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.winnerColorLabel.Location = new System.Drawing.Point(22, 10);
+            this.winnerColorLabel.Name = "winnerColorLabel";
+            this.winnerColorLabel.Size = new System.Drawing.Size(77, 24);
+            this.winnerColorLabel.TabIndex = 0;
+            this.winnerColorLabel.Text = "label30";
+            // 
+            // panel5
+            // 
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.nodesVisitedLabel);
+            this.panel5.Controls.Add(this.label31);
+            this.panel5.Controls.Add(this.label5);
+            this.panel5.Controls.Add(this.label7);
+            this.panel5.Controls.Add(this.timeAiMoveLabel);
+            this.panel5.Location = new System.Drawing.Point(1055, 515);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(220, 248);
+            this.panel5.TabIndex = 40;
+            // 
+            // nodesVisitedLabel
+            // 
+            this.nodesVisitedLabel.AutoSize = true;
+            this.nodesVisitedLabel.Location = new System.Drawing.Point(116, 108);
+            this.nodesVisitedLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.nodesVisitedLabel.Name = "nodesVisitedLabel";
+            this.nodesVisitedLabel.Size = new System.Drawing.Size(16, 17);
+            this.nodesVisitedLabel.TabIndex = 15;
+            this.nodesVisitedLabel.Text = "0";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(10, 108);
+            this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(97, 17);
+            this.label31.TabIndex = 14;
+            this.label31.Text = "Nodes visited:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label5.Location = new System.Drawing.Point(74, 39);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(90, 20);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "AI results";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1125, 893);
+            this.ClientSize = new System.Drawing.Size(1334, 897);
+            this.Controls.Add(this.panel5);
             this.Controls.Add(this.winnerPanel);
             this.Controls.Add(this.currentPlayerPanel);
             this.Controls.Add(this.a4);
@@ -1287,6 +1541,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.g4)).EndInit();
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
+            this.panel18.ResumeLayout(false);
+            this.panel18.PerformLayout();
+            this.panel16.ResumeLayout(false);
+            this.panel16.PerformLayout();
+            this.panel17.ResumeLayout(false);
+            this.panel17.PerformLayout();
             this.panel14.ResumeLayout(false);
             this.panel14.PerformLayout();
             this.panel13.ResumeLayout(false);
@@ -1306,6 +1566,8 @@
             this.currentPlayerPanel.PerformLayout();
             this.winnerPanel.ResumeLayout(false);
             this.winnerPanel.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1320,7 +1582,7 @@
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RadioButton minmaxRadioButton;
+        private System.Windows.Forms.RadioButton minmaxPlayerWhiteRadioButton;
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Button StartGameButton;
@@ -1341,9 +1603,9 @@
         private System.Windows.Forms.Label playerWhiteMoves;
         private System.Windows.Forms.Label playerBlackMoves;
         private System.Windows.Forms.Label allMovesLabel;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.RadioButton alphaBetaRadioButton;
-        private System.Windows.Forms.RadioButton radioButton7;
+        private System.Windows.Forms.Label timeAiMoveLabel;
+        private System.Windows.Forms.RadioButton alphaBetaPlayerWhiteRadioButton;
+        private System.Windows.Forms.RadioButton piecesDifferenceHeuristicRb;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.PictureBox a7;
@@ -1400,6 +1662,25 @@
         private System.Windows.Forms.Panel winnerPanel;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label winnerColorLabel;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label nodesVisitedLabel;
+        private System.Windows.Forms.RadioButton millsCountGameHeuristicRb;
+        private System.Windows.Forms.Panel panel18;
+        private System.Windows.Forms.RadioButton millsCountHeuristicPlayerBlackRadioButton;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.RadioButton piecesCountHeuristicPlayerBlackRadioButton;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Panel panel16;
+        private System.Windows.Forms.RadioButton minMaxPlayerBlackRadioButton;
+        private System.Windows.Forms.RadioButton alphaBetaPlayerBlackRadioButton;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Panel panel17;
+        private System.Windows.Forms.RadioButton millsCountHeuristicPlayerWhiteRadioButton;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.RadioButton piecesCountHeuristicPlayerWhiteRadioButton;
     }
 }
 

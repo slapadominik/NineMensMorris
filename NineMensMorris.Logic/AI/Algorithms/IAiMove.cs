@@ -5,6 +5,6 @@ namespace NineMensMorris.Logic.AI.Algorithms
 {
     public interface IAiMove
     {
-        MoveResult Move(Board board, Color currentPlayer);
+        AiMoveResult Move(Board board, Color currentPlayer);
     }
 }

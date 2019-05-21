@@ -42,16 +42,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\CaptureHeuristics\PiecesToMillCaptureHeuristic.cs" />
-    <Compile Include="AI\Node.cs" />
     <Compile Include="AI\Algorithms\AlphaBetaAiMove.cs" />
     <Compile Include="AI\CaptureHeuristics\ICaptureHeuristic.cs" />
     <Compile Include="AI\MoveHeuristics\IGameEvaluationHeuristic.cs" />
+    <Compile Include="AI\MoveHeuristics\MillsCountGameEvaluationHeuristic.cs" />
     <Compile Include="AI\MoveHeuristics\PiecesCountGameEvaluationHeuristic.cs" />
     <Compile Include="AI\Algorithms\IAiMove.cs" />
     <Compile Include="AI\Algorithms\MinMaxAiMove.cs" />
     <Compile Include="Consts\AiAlgorithmType.cs" />
     <Compile Include="Consts\GameStatus.cs" />
-    <Compile Include="Consts\Heuristics.cs" />
+    <Compile Include="Consts\GameEvaluationHeuristics.cs" />
     <Compile Include="Consts\Locations.cs" />
     <Compile Include="Consts\MoveType.cs" />
     <Compile Include="Consts\PlayerType.cs" />
@@ -60,8 +60,11 @@
     <Compile Include="Exceptions\InvalidConfigurationException.cs" />
     <Compile Include="Exceptions\InvalidMoveException.cs" />
     <Compile Include="Exceptions\InvalidPlayerTypeException.cs" />
+    <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\DeepCopyExtensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
+    <Compile Include="Models\AiMoveResult.cs" />
     <Compile Include="Models\AlmostMill.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Consts\Color.cs" />

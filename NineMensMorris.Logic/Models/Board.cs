@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Exceptions;
+using NineMensMorris.Logic.Extensions;
 
 namespace NineMensMorris.Logic.Models
 {
     public class Board
     {
         public int Value { get; set; }
-        public IDictionary<string, Piece> BoardState => new Dictionary<string, Piece>(_board);
+        public IDictionary<string, Piece> BoardState => DeepCopyBoard(_board);
 
         private readonly IDictionary<string, Piece> _board;
         public static readonly IDictionary<string, List<string>> Neighbours;
@@ -153,11 +156,16 @@ namespace NineMensMorris.Logic.Models
                 return _board.Values.Where(x => x != null && x.Color == player).SelectMany(x => GetPossibleMoves(x));
             }
 
+            //TODO
             throw new InvalidOperationException();
         }
 
         private IEnumerable<PossibleMove> GetPossibleMoves(Piece piece)
         {
+            if (_board[piece.Location].Location != piece.Location)
+            {
+                throw new InvalidOperationException($"WRONG");
+            }
             if (GameConfiguration.GameStatus(piece.Color) == GameStatus.BlackLastStage || GameConfiguration.GameStatus(piece.Color) == GameStatus.WhiteLastStage)
             {
                 List<PossibleMove> possibleMoves = new List<PossibleMove>();
@@ -171,7 +179,7 @@ namespace NineMensMorris.Logic.Models
                 return possibleMoves;
             }
 
-            return Board.Neighbours[piece.Location].Where(x => _board[x] == null).Select(x => new PossibleMove { From = piece.Location, To = x });
+            return Board.Neighbours[piece.Location].Where(x => _board[x] == null).Select(x => new PossibleMove { From = piece.Location, To = x, MoveType = MoveType.Normal});
         }
 
         private bool IsMoveValid(Color player, string from, string to)
@@ -181,7 +189,7 @@ namespace NineMensMorris.Logic.Models
                 return false;
             }
 
-            if (_board[to] != null || _board[from].Color != player)
+            if (_board[to] != null || _board[from] == null || _board[from]?.Color != player)
             {
                 return false;
             }
@@ -223,7 +231,7 @@ namespace NineMensMorris.Logic.Models
             return _board[location];
         }
 
-        public int CountNewMills(Color player)
+        public int CountMills(Color player)
         {
             int mills = 0;
             foreach (var row in RowMillsLocations)
@@ -309,6 +317,28 @@ namespace NineMensMorris.Logic.Models
                 }
             }
             return mills;
+        }
+
+        private IDictionary<string, Piece> DeepCopyBoard(IDictionary<string, Piece> board)
+        {
+            var newBoard = new Dictionary<string, Piece>()
+            {
+                {Locations.A7,null}, {Locations.D7,null},{Locations.G7,null},
+                {Locations.B6, null},  {Locations.D6, null},{Locations.F6, null},
+                {Locations.C5, null}, {Locations.D5, null}, {Locations.E5, null},
+                {Locations.A4, null}, {Locations.B4, null}, {Locations.C4, null}, {Locations.E4, null}, {Locations.F4, null}, {Locations.G4, null},
+                {Locations.C3, null}, {Locations.D3, null}, {Locations.E3, null},
+                {Locations.B2, null}, {Locations.D2, null}, {Locations.F2, null},
+                {Locations.A1,null}, {Locations.D1, null}, {Locations.G1, null},
+            };
+            foreach (var tile in board.Values)
+            {
+                if (tile != null)
+                {
+                    newBoard[tile.Location] = new Piece(tile.Color, tile.Location);
+                }           
+            }
+            return newBoard;
         }
     }
 }

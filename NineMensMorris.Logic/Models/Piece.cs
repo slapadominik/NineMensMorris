@@ -3,7 +3,6 @@ using NineMensMorris.Logic.Consts;
 
 namespace NineMensMorris.Logic.Models
 {
-    [Serializable]
     public class Piece
     {
         public Color Color { get; }

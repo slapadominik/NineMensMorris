@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NineMensMorris.Logic.AI.CaptureHeuristics;
 using NineMensMorris.Logic.AI.MoveHeuristics;
@@ -14,41 +15,63 @@ namespace NineMensMorris.Logic.AI.Algorithms
     {
         private IGameEvaluationHeuristic _gameEvaluationHeuristic;
         private ICaptureHeuristic _captureHeuristic;
-        private Random _random;
         private const int Depth = 4;
-        private PossibleMove _nextMove;
+        private PossibleMove _nextMaxMove;
+        private PossibleMove _nextMinMove;
+        private Board _nextMaxBoard;
+        private Board _nextMinBoard;
+        private Stopwatch _stopwatch;
+        private int _nodesVisited = 0;
 
         public MinMaxAiMove(IGameEvaluationHeuristic gameEvaluationHeuristic, ICaptureHeuristic captureHeuristic)
         {
             _gameEvaluationHeuristic = gameEvaluationHeuristic;
             _captureHeuristic = captureHeuristic;
-            _random = new Random();
+            _stopwatch = new Stopwatch();
         }
 
-        public MoveResult Move(Board board, Color currentPlayer)
+        public AiMoveResult Move(Board board, Color currentPlayer)
         {
+            _stopwatch.Start();
             var bestMoveValue = Minimax(board, Depth, currentPlayer);
-            var moveResult = board.Move(_nextMove.From, _nextMove.To, currentPlayer);
+            _stopwatch.Stop();
+            var elapsed = _stopwatch.Elapsed;
+            _stopwatch.Reset();
+            MoveResult moveResult;
+            if (currentPlayer == Color.White)
+            {
+                moveResult = board.Move(_nextMaxMove.From, _nextMaxMove.To, currentPlayer);
+            }
+            else
+            {
+                moveResult = board.Move(_nextMinMove.From, _nextMinMove.To, currentPlayer);
+            }
+
             if (moveResult.MoveType == MoveType.NewMill)
             {
                 CapturePiece(board, currentPlayer);
             }
-            return new MoveResult (moveResult.Board, moveResult.MoveType, currentPlayer);
+
+            var aiMoveResult = new AiMoveResult(moveResult.Board, moveResult.MoveType, currentPlayer)
+                {Elapsed = elapsed, NodesVisited = _nodesVisited};
+            _nodesVisited = 0;
+            return aiMoveResult;
         }
 
         public int Minimax(Board board, int depth, Color currentPlayer)
         {
             if (depth == 0)
             {
+                _nodesVisited++;
                 var value = _gameEvaluationHeuristic.EvaluateGameState(board, currentPlayer);
-                board.Value = value;
                 return value;
             }
 
             if (currentPlayer == Color.White)
             {
                 var maxEval = Int32.MinValue;
-                foreach (var possibleMove in board.GetPossibleMoves(currentPlayer))
+                var possibleMoves = board.GetPossibleMoves(currentPlayer);
+                foreach (var possibleMove in possibleMoves)
                 {
                     var newBoard = new Board(board);
                     var moveResult = newBoard.Move(possibleMove.From, possibleMove.To, currentPlayer);
@@ -59,17 +82,20 @@ namespace NineMensMorris.Logic.AI.Algorithms
                     var eval = Minimax(newBoard, depth-1, ColorHelper.GetOpponentColor(currentPlayer));
                     if (eval > maxEval)
                     {
-                        _nextMove = possibleMove;
+                        _nextMaxMove = possibleMove;
                     }
                     maxEval = Math.Max(maxEval, eval);
+                    _nodesVisited++;
                 }
-                board.Value = maxEval;
+
+                _nextMaxBoard = board;
                 return maxEval;
             }
             else
             {
                 var minEval = Int32.MaxValue;
-                foreach (var possibleMove in board.GetPossibleMoves(currentPlayer))
+                var possibleMoves = board.GetPossibleMoves(currentPlayer);
+                foreach (var possibleMove in possibleMoves)
                 {
                     var newBoard = new Board(board);
                     var moveResult = newBoard.Move(possibleMove.From, possibleMove.To, currentPlayer);
@@ -80,11 +106,13 @@ namespace NineMensMorris.Logic.AI.Algorithms
                     var eval = Minimax(newBoard, depth - 1, ColorHelper.GetOpponentColor(currentPlayer));
                     if (eval < minEval)
                     {
-                        _nextMove = possibleMove;
+                        _nextMinMove = possibleMove;
                     }
                     minEval = Math.Min(minEval, eval);
+                    _nodesVisited++;
                 }
-                board.Value = minEval;
+
+                _nextMinBoard = board;
                 return minEval;
             }
         }

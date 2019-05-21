@@ -13,6 +13,10 @@ namespace NineMensMorris
     {
         private PlayerType _playerWhite;
         private PlayerType _playerBlack;
+        private GameEvaluationHeuristics _gameEvaluationHeuristicWhitePlayer = GameEvaluationHeuristics.PiecesCount;
+        private GameEvaluationHeuristics _gameEvaluationHeuristicBlackPlayer = GameEvaluationHeuristics.PiecesCount;
+        private AiAlgorithmType _aiAlgorithmPlayerWhite = AiAlgorithmType.MinMax;
+        private AiAlgorithmType _aiAlgorithmPlayerBlack = AiAlgorithmType.MinMax;
         private IDictionary<string, PictureBox> _tiles;
         private int _playerWhiteMoves = 0;
         private int _playerBlackMoves = 0;
@@ -196,10 +200,10 @@ namespace NineMensMorris
             {
                 PlayerWhite = _playerWhite,
                 PlayerBlack = _playerBlack,
-                PlayerWhiteAiType = AiAlgorithmType.MinMax,
-                PlayerBlackAiType = AiAlgorithmType.MinMax,
-                PlayerWhiteAiHeuristics = Heuristics.PiecesCount,
-                PlayerBlackAiHeuristics = Heuristics.PiecesCount
+                PlayerWhiteAiType = _aiAlgorithmPlayerWhite,
+                PlayerBlackAiType = _aiAlgorithmPlayerBlack,
+                PlayerWhiteAiGameEvaluationHeuristics = _gameEvaluationHeuristicWhitePlayer,
+                PlayerBlackAiGameEvaluationHeuristics = _gameEvaluationHeuristicBlackPlayer
             };
             logsListView.Items.Add(gameSetup.ToString());
             _game = new Game(gameSetup);
@@ -213,12 +217,85 @@ namespace NineMensMorris
             {
                 var moveResult = _game.AiMove();
                 ParseBoard(moveResult.Board);
-                LogMove(moveResult);
+                LogAiMove(moveResult);
                 IncrementPlayersPiecesCounters(moveResult);
+                SetAiStatistics(moveResult);
             }
             catch (Exception ex)
             {
                 logsListView.Items.Add(ex.Message);
+            }
+        }
+
+        private void minmaxPlayerWhiteRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (minMaxPlayerBlackRadioButton.Checked)
+            {
+                Enum.TryParse(minmaxPlayerWhiteRadioButton.Text, out AiAlgorithmType aiAlgorithmType);
+                _aiAlgorithmPlayerWhite = aiAlgorithmType;
+            }
+        }
+
+        private void alphaBetaPlayerWhiteRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (alphaBetaPlayerWhiteRadioButton.Checked)
+            {
+                Enum.TryParse(alphaBetaPlayerWhiteRadioButton.Text, out AiAlgorithmType aiAlgorithmType);
+                _aiAlgorithmPlayerWhite = aiAlgorithmType;
+            }
+        }
+
+        private void minMaxPlayerBlackRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (minMaxPlayerBlackRadioButton.Checked)
+            {
+                Enum.TryParse(minMaxPlayerBlackRadioButton.Text, out AiAlgorithmType aiAlgorithmType);
+                _aiAlgorithmPlayerBlack = aiAlgorithmType;
+            }
+        }
+
+        private void alphaBetaPlayerBlackRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (alphaBetaPlayerBlackRadioButton.Checked)
+            {
+                Enum.TryParse(alphaBetaPlayerBlackRadioButton.Text, out AiAlgorithmType aiAlgorithmType);
+                _aiAlgorithmPlayerBlack = aiAlgorithmType;
+            }
+        }
+
+        private void piecesCountHeuristicPlayerWhiteRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (piecesCountHeuristicPlayerWhiteRadioButton.Checked)
+            {
+                var heurisitc = int.Parse((string)piecesCountHeuristicPlayerWhiteRadioButton.Tag);
+                _gameEvaluationHeuristicWhitePlayer = (GameEvaluationHeuristics) heurisitc;
+            }
+        }
+
+        private void millsCountHeuristicPlayerWhiteRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (millsCountHeuristicPlayerWhiteRadioButton.Checked)
+            {
+                var heurisitc = int.Parse((string) millsCountHeuristicPlayerWhiteRadioButton.Tag);
+                _gameEvaluationHeuristicWhitePlayer = (GameEvaluationHeuristics)heurisitc;
+            }
+        }
+
+        private void piecesCountHeuristicPlayerBlackRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (piecesCountHeuristicPlayerBlackRadioButton.Checked)
+            {
+                var heurisitc = int.Parse((string)piecesCountHeuristicPlayerBlackRadioButton.Tag);
+                _gameEvaluationHeuristicBlackPlayer = (GameEvaluationHeuristics)heurisitc;
+            }
+        }
+
+        private void millsCountHeuristicPlayerBlackRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (millsCountHeuristicPlayerBlackRadioButton.Checked)
+            {
+                var heurisitc = int.Parse((string)millsCountHeuristicPlayerBlackRadioButton.Tag);
+                _gameEvaluationHeuristicBlackPlayer = (GameEvaluationHeuristics)heurisitc;
             }
         }
 
@@ -389,10 +466,35 @@ namespace NineMensMorris
             }
         }
 
-
-        private void LogMove(MoveResult move)
+        private void IncrementPlayersPiecesCounters(AiMoveResult moveResult)
         {
-            logsListView.Items.Add($"{move.PlayerColor}: MOVE {move.MoveType}");
+            if (moveResult.PlayerColor == Logic.Consts.Color.White)
+            {
+                playerWhiteMoves.Text = (++_playerWhiteMoves).ToString();
+                if (_playerWhitePiecesInit < 9 && moveResult.MoveType == MoveType.AddPiece || moveResult.MoveType == MoveType.NewMill)
+                {
+                    playerWhitePiecesInit.Text = (++_playerWhitePiecesInit).ToString();
+                }
+            }
+            else if (moveResult.PlayerColor == Logic.Consts.Color.Black)
+            {
+                playerBlackMoves.Text = (++_playerBlackMoves).ToString();
+                if (_playerBlackPiecesInit < 9 && moveResult.MoveType == MoveType.AddPiece || moveResult.MoveType == MoveType.NewMill)
+                {
+                    playersBlackPiecesInit.Text = (++_playerBlackPiecesInit).ToString();
+                }
+            }
+        }
+
+        private void LogAiMove(AiMoveResult move)
+        {
+            logsListView.Items.Add($"{move.PlayerColor}: MOVE {move.MoveType}. Elapsed time: {move.Elapsed}. Nodes visited: {move.NodesVisited}");
+        }
+
+        private void SetAiStatistics(AiMoveResult move)
+        {
+            timeAiMoveLabel.Text = move.Elapsed.ToString();
+            nodesVisitedLabel.Text = move.NodesVisited.ToString();
         }
     }
 }
