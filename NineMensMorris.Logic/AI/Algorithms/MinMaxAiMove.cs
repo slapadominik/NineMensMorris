@@ -2,8 +2,7 @@
 using System.Diagnostics;
 using NineMensMorris.Logic.AI.Algorithms.Interfaces;
 using NineMensMorris.Logic.AI.CaptureHeuristics.Interfaces;
-using NineMensMorris.Logic.AI.MoveHeuristics;
-using NineMensMorris.Logic.AI.MoveHeuristics.Interfaces;
+using NineMensMorris.Logic.AI.GameEvaluationHeuristics.Interfaces;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Helpers;
 using NineMensMorris.Logic.Models;

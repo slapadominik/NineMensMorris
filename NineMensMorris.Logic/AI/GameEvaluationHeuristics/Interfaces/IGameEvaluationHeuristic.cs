@@ -1,7 +1,7 @@
 ﻿using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Models;
 
-namespace NineMensMorris.Logic.AI.MoveHeuristics.Interfaces
+namespace NineMensMorris.Logic.AI.GameEvaluationHeuristics.Interfaces
 {
     public interface IGameEvaluationHeuristic
     {

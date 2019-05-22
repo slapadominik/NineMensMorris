@@ -44,12 +44,12 @@
     <Compile Include="AI\CaptureHeuristics\PiecesToMillCaptureHeuristic.cs" />
     <Compile Include="AI\Algorithms\AlphaBetaAiMove.cs" />
     <Compile Include="AI\CaptureHeuristics\Interfaces\ICaptureHeuristic.cs" />
-    <Compile Include="AI\MoveHeuristics\Interfaces\IGameEvaluationHeuristic.cs" />
-    <Compile Include="AI\MoveHeuristics\MillsCountGameEvaluationHeuristic.cs" />
-    <Compile Include="AI\MoveHeuristics\PiecesCountGameEvaluationHeuristic.cs" />
+    <Compile Include="AI\GameEvaluationHeuristics\Interfaces\IGameEvaluationHeuristic.cs" />
+    <Compile Include="AI\GameEvaluationHeuristics\MillsCountGameEvaluationHeuristic.cs" />
+    <Compile Include="AI\GameEvaluationHeuristics\PiecesCountGameEvaluationHeuristic.cs" />
     <Compile Include="AI\Algorithms\Interfaces\IAiMove.cs" />
     <Compile Include="AI\Algorithms\MinMaxAiMove.cs" />
-    <Compile Include="AI\MoveHeuristics\TwoConfigurationCountGameEvaluationHeuristic.cs" />
+    <Compile Include="AI\GameEvaluationHeuristics\TwoConfigurationCountGameEvaluationHeuristic.cs" />
     <Compile Include="Consts\AiAlgorithmType.cs" />
     <Compile Include="Consts\GameStatus.cs" />
     <Compile Include="Consts\GameEvaluationHeuristics.cs" />

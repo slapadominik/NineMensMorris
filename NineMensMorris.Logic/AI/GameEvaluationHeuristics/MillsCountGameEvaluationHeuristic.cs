@@ -1,8 +1,8 @@
-﻿using NineMensMorris.Logic.AI.MoveHeuristics.Interfaces;
+﻿using NineMensMorris.Logic.AI.GameEvaluationHeuristics.Interfaces;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Models;
 
-namespace NineMensMorris.Logic.AI.MoveHeuristics
+namespace NineMensMorris.Logic.AI.GameEvaluationHeuristics
 {
     public class MillsCountGameEvaluationHeuristic : IGameEvaluationHeuristic
     {

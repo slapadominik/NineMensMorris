@@ -1,7 +1,7 @@
 ﻿using NineMensMorris.Logic.AI.Algorithms;
 using NineMensMorris.Logic.AI.Algorithms.Interfaces;
 using NineMensMorris.Logic.AI.CaptureHeuristics;
-using NineMensMorris.Logic.AI.MoveHeuristics;
+using NineMensMorris.Logic.AI.GameEvaluationHeuristics;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Exceptions;
 using NineMensMorris.Logic.Helpers;

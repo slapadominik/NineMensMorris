@@ -557,15 +557,6 @@ namespace NineMensMorris
             }
         }
 
-        private void threePieceConfWhiteHeuristic_CheckedChanged(object sender, EventArgs e)
-        {
-            if (threePieceConfWhiteHeuristic.Checked)
-            {
-                var heurisitc = int.Parse((string)threePieceConfWhiteHeuristic.Tag);
-                _gameEvaluationHeuristicWhitePlayer = (GameEvaluationHeuristics)heurisitc;
-            }
-        }
-
         private void twoPieceConfBlackHeuristic_CheckedChanged(object sender, EventArgs e)
         {
             if (twoPieceConfBlackHeuristic.Checked)
