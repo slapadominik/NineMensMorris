@@ -3,6 +3,7 @@ using System.Diagnostics;
 using NineMensMorris.Logic.AI.Algorithms.Interfaces;
 using NineMensMorris.Logic.AI.CaptureHeuristics.Interfaces;
 using NineMensMorris.Logic.AI.MoveHeuristics;
+using NineMensMorris.Logic.AI.MoveHeuristics.Interfaces;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Helpers;
 using NineMensMorris.Logic.Models;
@@ -19,7 +20,7 @@ namespace NineMensMorris.Logic.AI.Algorithms
         private Board _nextMinBoard;
         private Stopwatch _stopwatch;
         private int _nodesVisited = 0;
-        private const int Depth = 4;
+        private const int Depth = 5;
 
         public MinMaxAiMove(IGameEvaluationHeuristic gameEvaluationHeuristic, ICaptureHeuristic captureHeuristic)
         {

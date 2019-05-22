@@ -44,8 +44,7 @@
     <Compile Include="AI\CaptureHeuristics\PiecesToMillCaptureHeuristic.cs" />
     <Compile Include="AI\Algorithms\AlphaBetaAiMove.cs" />
     <Compile Include="AI\CaptureHeuristics\Interfaces\ICaptureHeuristic.cs" />
-    <Compile Include="AI\MoveHeuristics\BlockedPiecesCountGameEvaluationHeuristic.cs" />
-    <Compile Include="AI\MoveHeuristics\IGameEvaluationHeuristic.cs" />
+    <Compile Include="AI\MoveHeuristics\Interfaces\IGameEvaluationHeuristic.cs" />
     <Compile Include="AI\MoveHeuristics\MillsCountGameEvaluationHeuristic.cs" />
     <Compile Include="AI\MoveHeuristics\PiecesCountGameEvaluationHeuristic.cs" />
     <Compile Include="AI\Algorithms\Interfaces\IAiMove.cs" />
@@ -77,8 +76,6 @@
     <Compile Include="Models\PossibleMove.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

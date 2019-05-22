@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NineMensMorris.Logic.AI.MoveHeuristics.Interfaces;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Models;
 
