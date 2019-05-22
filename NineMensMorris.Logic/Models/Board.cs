@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Exceptions;
-using NineMensMorris.Logic.Extensions;
 using NineMensMorris.Logic.Helpers;
 
 namespace NineMensMorris.Logic.Models

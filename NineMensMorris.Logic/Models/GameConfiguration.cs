@@ -6,8 +6,8 @@ namespace NineMensMorris.Logic.Models
     {
         public static int WhitePieces = 0;
         public static int BlackPieces = 0;
-
         public static int Moves = 0;
+
         private const int MovesToGameStage2 = 18;
         private const int PiecesToGameStage3 = 3;
 

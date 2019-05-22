@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using NineMensMorris.Logic.AI.CaptureHeuristics.Interfaces;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Helpers;
 using NineMensMorris.Logic.Models;

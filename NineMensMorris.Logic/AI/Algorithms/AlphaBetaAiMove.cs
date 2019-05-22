@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using NineMensMorris.Logic.AI.CaptureHeuristics;
+using NineMensMorris.Logic.AI.Algorithms.Interfaces;
+using NineMensMorris.Logic.AI.CaptureHeuristics.Interfaces;
 using NineMensMorris.Logic.AI.MoveHeuristics;
 using NineMensMorris.Logic.Consts;
 using NineMensMorris.Logic.Helpers;
@@ -13,12 +14,11 @@ namespace NineMensMorris.Logic.AI.Algorithms
     {
         private IGameEvaluationHeuristic _gameEvaluationHeuristic;
         private ICaptureHeuristic _captureHeuristic;
-        private const int Depth = 5;
         private PossibleMove _nextMaxMove;
         private PossibleMove _nextMinMove;
         private Stopwatch _stopwatch;
         private int _nodesVisited = 0;
-        private IList<PossibleMove> _possibleMoves;
+        private const int Depth = 5;
 
         public AlphaBetaAiMove(IGameEvaluationHeuristic gameEvaluationHeuristic, ICaptureHeuristic captureHeuristic)
         {
@@ -77,7 +77,7 @@ namespace NineMensMorris.Logic.AI.Algorithms
                         CapturePiece(newBoard, currentPlayer);
                     }
                     var eval = Alphabeta(newBoard, depth - 1, alpha, beta, ColorHelper.GetOpponentColor(currentPlayer));
-                    if (eval > maxEval)
+                    if (depth == Depth && eval > maxEval)
                     {
                         _nextMaxMove = possibleMove;
                     }
@@ -103,7 +103,7 @@ namespace NineMensMorris.Logic.AI.Algorithms
                         CapturePiece(newBoard, currentPlayer);
                     }
                     var eval = Alphabeta(newBoard, depth - 1, alpha, beta, ColorHelper.GetOpponentColor(currentPlayer));
-                    if (eval < minEval)
+                    if (depth == Depth && eval < minEval)
                     {
                         _nextMinMove = possibleMove;
                     }

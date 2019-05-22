@@ -1,5 +1,5 @@
-﻿using System;
-using NineMensMorris.Logic.AI.Algorithms;
+﻿using NineMensMorris.Logic.AI.Algorithms;
+using NineMensMorris.Logic.AI.Algorithms.Interfaces;
 using NineMensMorris.Logic.AI.CaptureHeuristics;
 using NineMensMorris.Logic.AI.MoveHeuristics;
 using NineMensMorris.Logic.Consts;
@@ -22,6 +22,7 @@ namespace NineMensMorris.Logic.Models
             _board = new Board();
             SetUpGame(gameSetup);
             _currentPlayer = _playerWhite;
+            ClearGameConfig();
         }
 
         public Player CurrentPlayer
@@ -169,6 +170,13 @@ namespace NineMensMorris.Logic.Models
             {
                 _currentPlayer = _playerBlack;
             }
+        }
+
+        private void ClearGameConfig()
+        {
+            GameConfiguration.BlackPieces = 0;
+            GameConfiguration.WhitePieces = 0;
+            GameConfiguration.Moves = 0;
         }
 
         private void SetUpGame(GameSetup gameConfig)

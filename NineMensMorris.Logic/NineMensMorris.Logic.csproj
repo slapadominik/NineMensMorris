@@ -43,12 +43,12 @@
   <ItemGroup>
     <Compile Include="AI\CaptureHeuristics\PiecesToMillCaptureHeuristic.cs" />
     <Compile Include="AI\Algorithms\AlphaBetaAiMove.cs" />
-    <Compile Include="AI\CaptureHeuristics\ICaptureHeuristic.cs" />
+    <Compile Include="AI\CaptureHeuristics\Interfaces\ICaptureHeuristic.cs" />
     <Compile Include="AI\MoveHeuristics\BlockedPiecesCountGameEvaluationHeuristic.cs" />
     <Compile Include="AI\MoveHeuristics\IGameEvaluationHeuristic.cs" />
     <Compile Include="AI\MoveHeuristics\MillsCountGameEvaluationHeuristic.cs" />
     <Compile Include="AI\MoveHeuristics\PiecesCountGameEvaluationHeuristic.cs" />
-    <Compile Include="AI\Algorithms\IAiMove.cs" />
+    <Compile Include="AI\Algorithms\Interfaces\IAiMove.cs" />
     <Compile Include="AI\Algorithms\MinMaxAiMove.cs" />
     <Compile Include="AI\MoveHeuristics\TwoConfigurationCountGameEvaluationHeuristic.cs" />
     <Compile Include="Consts\AiAlgorithmType.cs" />
@@ -62,15 +62,11 @@
     <Compile Include="Exceptions\InvalidConfigurationException.cs" />
     <Compile Include="Exceptions\InvalidMoveException.cs" />
     <Compile Include="Exceptions\InvalidPlayerTypeException.cs" />
-    <Compile Include="Extensions\ArrayExtensions.cs" />
-    <Compile Include="Extensions\DeepCopyExtensions.cs" />
-    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Models\AiMoveResult.cs" />
     <Compile Include="Models\AlmostMill.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Consts\Color.cs" />
-    <Compile Include="Models\Column.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\GameConfiguration.cs" />
     <Compile Include="Models\GameSetup.cs" />
@@ -81,6 +77,8 @@
     <Compile Include="Models\PossibleMove.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\Interfaces\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

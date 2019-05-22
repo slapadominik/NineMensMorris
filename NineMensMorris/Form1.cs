@@ -26,8 +26,6 @@ namespace NineMensMorris
         private PictureBox _locationFrom = null;
         private Game _game;
 
-        private int AllMoves => _playerBlackMoves + _playerWhiteMoves;
-
         public Form1()
         {
             InitializeComponent();
@@ -209,6 +207,31 @@ namespace NineMensMorris
             _game = new Game(gameSetup);
             currentPlayerPanel.Visible = true;
             currentPlayerLabel.Text = "White";
+            ClearBoard();
+            ClearStatistics();
+        }
+
+        private void ClearBoard()
+        {
+            foreach (var tile in _tiles.Values)
+            {
+                tile.Image = Resources.blackcircle3;
+            }
+        }
+
+        private void ClearStatistics()
+        {
+            allMovesLabel.Text = "0";
+            playerBlackMoves.Text = "0";
+            playerWhiteMoves.Text = "0";
+            playerWhitePiecesInit.Text = "0";
+            playersBlackPiecesInit.Text = "0";
+            _playerWhiteMoves = 0;
+            _playerBlackMoves = 0;
+            _playerWhitePiecesInit = 0;
+            _playerBlackPiecesInit = 0;
+            timeAiMoveLabel.Text = "0";
+            nodesVisitedLabel.Text = "0";
         }
 
         private void MoveAiButton_Click(object sender, EventArgs e)
@@ -435,7 +458,7 @@ namespace NineMensMorris
             logsListView.Items.Add($"{moveResult.PlayerColor}: MOVE {moveResult.MoveType} {from} -> {to}");
             IncrementPlayersPiecesCounters(moveResult);
             AddPieceToTile(pictureBox, moveResult.PlayerColor);
-            allMovesLabel.Text = AllMoves.ToString();
+            SetAllMovesText();
         }
 
         private void CaptureMove(string to, PictureBox pictureBox)
